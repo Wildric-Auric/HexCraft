@@ -135,12 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\HexCraft.cpp" />
     <ClCompile Include="Engine\Context.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\Shapes.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Context.h" />
     <ClInclude Include="Engine\Globals.h" />
     <ClInclude Include="Engine\Log.h" />

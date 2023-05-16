@@ -20,6 +20,7 @@ ShaderString Shader::Parse(std::string path) { //For now it's just fragment and 
 		else if (current == ShaderType::Vertex)		   ret.vertex   += line + '\n';
 	}
 	file.close();
+	this->path = path;
 	return ret;
 }
 
@@ -41,7 +42,7 @@ int Shader::Compile(ShaderString shaderString) {
 		glGetShaderInfoLog(vertexShader, 512, NULL, log);
 		LOG("Error: Vertex Shader compilation failed");
 		LOG("Path: " + this->path);
-		LOG(std::string("Error details: "));
+		LOG(std::string("Error details: ") + log);
 		delete[] log;
 		return 0;
 	}
@@ -80,15 +81,34 @@ int Shader::Compile(ShaderString shaderString) {
 int Shader::Recompile() {
 	glDeleteProgram(this->id);
 	this->id = 0;
-	return Compile(Shader::Parse(this->path));
+	return Compile(this->Parse(this->path));
 }
 
 Shader::Shader(std::string path) {
-	Shader::Compile(Shader::Parse(path));
+	Shader::Compile(this->Parse(path));
 }
 
 void Shader::Use() {
 	glUseProgram(this->id);
+}
+
+void Shader::SetUniform(GLSLDataType datatype, const char* uniformName, void* data) {
+	switch (datatype) {
+		case (GLSLDataType::Integer):
+			glUniform1i(glGetUniformLocation(this->id, uniformName), *((int*)data)); break;
+		case (GLSLDataType::Float):
+			glUniform1f(glGetUniformLocation(this->id, uniformName), *((float*)data)); break;
+		case (GLSLDataType::Integer2):
+			glUniform2i(glGetUniformLocation(this->id, uniformName), *((int*)data), *((int*)data+1)); break;
+		case (GLSLDataType::Float2):
+			glUniform2f(glGetUniformLocation(this->id, uniformName), *((float*)data), *((float*)data + 1)); break;
+		case (GLSLDataType::Integer3):
+			glUniform3i(glGetUniformLocation(this->id, uniformName), *((int*)data), *((int*)data + 1), *((int*)data + 2)); break;
+		case (GLSLDataType::Float3):
+			glUniform3f(glGetUniformLocation(this->id, uniformName), *((float*)data), *((float*)data + 1), *((float*)data + 2)); break;
+		case (GLSLDataType::Mat4f):
+			glUniformMatrix4fv(glGetUniformLocation(this->id, uniformName), 1, false, (float*)data); break;
+	}
 }
 
 Shader::~Shader() {
