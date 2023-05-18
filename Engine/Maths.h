@@ -5,10 +5,15 @@
 
 namespace Maths {
 #define PI 3.14159265359
-#define ONEDIV180 0.00555555555
 
-	inline float DegToRad(float degree) {
-		return degree * PI * ONEDIV180;
+	inline float DegToRad(float angle) {
+		constexpr float temp = PI * 1.0 /180.0f;
+		return angle * temp;
+	}
+
+	inline float RadToDeg(float angle) {
+		constexpr float temp = 180.0 / PI;
+		return angle * temp;
 	}
 
 	template<typename T>
