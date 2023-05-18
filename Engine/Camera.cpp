@@ -13,6 +13,9 @@ void Camera::CalculateViewMatrix() {
 
 void Camera::CalculateProjectionMatrix(const CameraProperties& camProp) {
 	this->__prop			 = camProp;
+	if (this->__prop.fieldOfView == 0.0f) {
+		this->__prop.fieldOfView = 2.0 * Maths::RadToDeg(atan(this->__prop.resolution.y * 0.5 / this->__prop.orthoPlane));
+	}
 	this->__prop.aspectRatio = this->__prop.resolution.x / this->__prop.resolution.y;
 	this->__projectionMatrix = glm::perspective(Maths::DegToRad(this->__prop.fieldOfView), this->__prop.aspectRatio, this->__prop.nearPlane, this->__prop.farPlane);
 	this->CalculateViewXprojection();
@@ -41,5 +44,4 @@ Camera::Camera(const CameraProperties& camProp) {
 
 void Camera::Use() {
 	Camera::activeCam = this;
-
 }

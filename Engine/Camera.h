@@ -5,16 +5,19 @@
 
 #define DEFAULT_RESOLUTION_X 720.0f
 #define DEFAULT_RESOLUTION_Y 480.0f
-#define DEFAULT_NEAR_PLANE   1.0f
-#define DEFAULT_FAR_PLANE    1000.0f
+#define DEFAULT_NEAR_PLANE   DEFAULT_RESOLUTION_Y * 0.5f
+#define DEFAULT_FAR_PLANE    16777215.0f //2^24 - 1  = 4438 meter
+#define DEFAULT_ORTHO_PLANE  DEFAULT_RESOLUTION_Y * 0.5f
 
 constexpr float defaultAspectRatio     = DEFAULT_RESOLUTION_X / DEFAULT_RESOLUTION_Y;
-//Read only
+//If fieldOfView is 0.0f it will be set automatically according to orthoPlane
+//Distance at which the frustum plane matches a pixel perfect orthographic projection
 struct CameraProperties {
 	fVec2 resolution          = fVec2(DEFAULT_RESOLUTION_X, DEFAULT_RESOLUTION_Y);
-	float fieldOfView		  = 60.0f;
-	float nearPlane           = 1.0f;
-	float farPlane            = 1000.0f;
+	float nearPlane           = DEFAULT_NEAR_PLANE;
+	float farPlane            = DEFAULT_FAR_PLANE;
+	float orthoPlane          = DEFAULT_ORTHO_PLANE;
+	float fieldOfView		  =	0.0f;
 	float aspectRatio		  = defaultAspectRatio;
 };
 
