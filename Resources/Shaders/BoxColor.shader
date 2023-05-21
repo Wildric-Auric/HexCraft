@@ -23,15 +23,15 @@ in vec2 uv;
 out vec4 FragColor;
 
 
-#define edge 0.05
-#define edgeColor vec3(0.9)
+#define edge 0.02
+#define edgeColor vec3(0.3)
 #define Interpolate
 
 void main(){
     vec3 color = vec3(1.0);
     if (uv.x > 1.0-edge || uv.x < edge || uv.y > 1.0 - edge || uv.y < edge) {
         color = edgeColor;
-    }
+        }
 
     FragColor = vec4(color, 1.0);
 }
