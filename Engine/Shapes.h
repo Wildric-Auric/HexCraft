@@ -13,6 +13,19 @@ struct CubeVertex {
 	float textureIndex;
 };
 
+struct HexagonVertex {
+	HexagonVertex(fVec3 position, float textureIndex);
+	fVec3 position;
+	float textureIndex;
+};
+
+struct HexaPrismVertex {
+	HexaPrismVertex(fVec3 position, fVec2 uv, float textureIndex);
+	fVec3 position;
+	fVec2 uv;
+	float textureIndex;
+};
+
 class Shape {
 public:
 	virtual void SetUpVerticesData(const Vertex* const vert) {};
@@ -79,4 +92,44 @@ public:
 	void SetUpVerticesData(const CubeVertex* const vert);
 	void Draw()										     override;
 	void Delete()										 override;
+};
+
+class Hexagon : public Shape {
+private:
+	uint32 VBO = 0;
+	uint32 VAO = 0;
+	uint32 EBO = 0;
+public:
+	static Hexagon instance;
+	static uint32 indices[12];
+	static HexagonVertex vertices[6];
+
+	Hexagon() {};
+
+	Hexagon(const HexagonVertex* const vert);
+
+	void SetUpVerticesData(const HexagonVertex* const vert);
+	void Draw()										     override;
+	void Delete()										 override;
+};
+
+
+class HexaPrism : public Shape {
+private:
+	uint32 VBO = 0;
+	uint32 VAO = 0;
+	uint32 EBO = 0;
+public:
+	static HexaPrism instance;
+	static uint32 indices[60];
+	static HexaPrismVertex vertices[12];
+
+	HexaPrism() {};
+
+	HexaPrism(const HexaPrismVertex* const vert);
+
+	void SetUpVerticesData(const HexaPrismVertex* const vert);
+	void Draw()										     override;
+	void Delete()										 override;
+
 };

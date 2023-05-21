@@ -8,6 +8,8 @@ void Shape::Init() {
 	Quad::instance	   = Quad(nullptr);
 	Triangle::instance = Triangle(nullptr);
 	Cube::instance     = Cube(nullptr);
+	Hexagon::instance  = Hexagon(nullptr);
+	HexaPrism::instance= HexaPrism(nullptr);
 }
 
 void Shape::Destroy() {
@@ -25,6 +27,18 @@ CubeVertex::CubeVertex(fVec3 position, fVec2 uv, float textureIndex) {
 	this->uv		   = uv;
 	this->textureIndex = textureIndex;
 }
+
+HexagonVertex::HexagonVertex(fVec3 position, float textureIndex) {
+	this->position     = position;
+	this->textureIndex = textureIndex;
+}
+
+HexaPrismVertex::HexaPrismVertex(fVec3 position, fVec2 uv, float textureIndex) {
+	this->position     = position;
+	this->uv		   = uv;
+	this->textureIndex = textureIndex;
+}
+
 
 //Quad----------------------------------------
 
@@ -147,6 +161,19 @@ uint32 Cube::indices[36] = {
 	8, 10,9, 9, 10,3,     //Upper face
 	0,12,11,11,12,13      //Lower face
 };
+
+/*
+					 7,8--------6,9	
+					  /        /|	
+					 /        / |	
+				 2,10--------3  |	
+					|        |  |	
+					| 5,12     4,13	
+					|        | /	
+ 					|        |/	
+					0--------1,11
+*/
+
 CubeVertex Cube::vertices[14] = {
 	//Front face
 	CubeVertex({ -0.5, -0.5 , 0.5 }, { 0.0, 0.0 }, 0),
@@ -192,7 +219,6 @@ void Cube::SetUpVerticesData(const CubeVertex* const vert) {
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(CubeVertex), (void*)0);
 	glEnableVertexAttribArray(0);
-
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(CubeVertex), (void*)sizeof(CubeVertex::position));
 	glEnableVertexAttribArray(1);
 
@@ -214,3 +240,149 @@ void Cube::Delete() {
 }
 
 
+//Hexagon-----------------------------------------------
+
+Hexagon Hexagon::instance;
+uint32 Hexagon::indices[12] = { 
+	0, 1, 5,           //Left   triangle
+	1, 2, 5, 2, 4, 5,  //Middle rectangle
+	2, 3, 4			   //Right  triangle
+};
+
+HexagonVertex Hexagon::vertices[6] = {
+	HexagonVertex({ -0.5,  0.0, 0.0},  0.0f),
+	HexagonVertex({ -0.25, -0.5, 0.0}, 0.0f),
+	HexagonVertex({  0.25, -0.5, 0.0}, 0.0f),
+	HexagonVertex({  0.5,  0.0, 0.0}, 0.0f),
+	HexagonVertex({  0.25, 0.5, 0.0}, 0.0f),
+	HexagonVertex({ -0.25, 0.5, 0.0}, 0.0f)
+};
+
+void Hexagon::SetUpVerticesData(const HexagonVertex* const vert) {
+	//Generate and bind
+	glGenBuffers(1, &this->EBO);
+	glGenBuffers(1, &this->VBO);
+	glGenVertexArrays(1, &this->VAO);
+
+	glBindVertexArray(this->VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	//Fill buffers
+	glBufferData(GL_ARRAY_BUFFER,		  sizeof(Hexagon::vertices), &(vert[0].position.x), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Hexagon::indices), Hexagon::indices, GL_STATIC_DRAW);
+	//Enable attributes
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(HexagonVertex), (void*)0);
+	glEnableVertexAttribArray(0); 
+
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(HexagonVertex), (void*)sizeof(HexagonVertex::position));
+	glEnableVertexAttribArray(1); 
+	//Unbind buffers
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+Hexagon::Hexagon(const HexagonVertex* const vert) {
+	if (vert == nullptr) {
+		SetUpVerticesData(Hexagon::vertices);
+		return;
+	}
+	SetUpVerticesData(vert);
+}
+
+void Hexagon::Draw() {
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, sizeof(Hexagon::indices) / sizeof(Hexagon::indices[0]), GL_UNSIGNED_INT, 0);
+}
+
+void Hexagon::Delete() {
+	glDeleteVertexArrays(1, &this->VAO);
+	glDeleteBuffers(1, &this->VBO);
+	glDeleteBuffers(1, &this->EBO);
+	this->EBO = 0; this->VAO = 0; this->VBO = 0;
+}
+
+//HexaPrism----------------------------------------------
+
+HexaPrism HexaPrism::instance;
+
+uint32 HexaPrism::indices[60] = {
+	//Lateral faces
+	0, 1, 2, 1, 3, 2,
+	1, 4, 3, 4, 5, 3,
+	4, 6, 5, 6, 7, 5,
+	6, 8, 7, 8, 9, 7,
+	8, 10, 9, 10, 11, 9,
+	10, 0, 11, 0, 2, 11,
+	
+	//Bases
+	10, 8, 0, 
+	8,  6, 0, 6, 1, 0,
+	6,  4, 1,
+	11, 2, 9,
+	2,  3, 9, 3, 7, 9,
+	3,  5, 7
+};
+
+HexaPrismVertex HexaPrism::vertices[12] = {
+	HexaPrismVertex({ -0.25, -0.5, 0.5}, {0.0f, 0.0f}, 0.0f),
+	HexaPrismVertex({  0.25, -0.5, 0.5}, {0.0f, 1.0f}, 0.0f),
+	HexaPrismVertex({ -0.25,  0.5, 0.5}, {1.0f, 0.0f}, 0.0f),
+	HexaPrismVertex({  0.25,  0.5, 0.5}, {1.0f, 1.0f}, 0.0f),
+
+	HexaPrismVertex({  0.5,  -0.5, 0.0},  {0.0, 0.0},  0.0f),
+	HexaPrismVertex({  0.5,   0.5, 0.0},  {0.0, 1.0},  0.0f),
+	HexaPrismVertex({  0.25, -0.5, -0.5}, {1.0, 0.0},  0.0f),
+	HexaPrismVertex({  0.25,  0.5, -0.5}, {1.0, 1.0},  0.0f),
+	HexaPrismVertex({ -0.25, -0.5, -0.5}, {0.0, 0.0},  0.0f),
+	HexaPrismVertex({ -0.25,  0.5, -0.5}, {0.0, 1.0},  0.0f),
+	HexaPrismVertex({ -0.5,  -0.5,  0.0}, {1.0, 0.0},  0.0f),
+	HexaPrismVertex({ -0.5,   0.5,  0.0}, {1.0, 1.0},  0.0f)
+};
+
+void HexaPrism::SetUpVerticesData(const HexaPrismVertex* const vert) {
+	//Generate and bind
+	glGenBuffers(1, &this->EBO);
+	glGenBuffers(1, &this->VBO);
+	glGenVertexArrays(1, &this->VAO);
+
+	glBindVertexArray(this->VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	//Fill buffers
+	glBufferData(GL_ARRAY_BUFFER, sizeof(HexaPrism::vertices), &(vert[0].position.x), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(HexaPrism::indices), HexaPrism::indices, GL_STATIC_DRAW);
+	//Enable attributes
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(HexaPrismVertex), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(HexaPrismVertex), (void*)(sizeof(HexaPrismVertex::position)));
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(HexaPrismVertex), (void*)sizeof(HexaPrismVertex::position + sizeof(HexaPrismVertex::uv)));
+	glEnableVertexAttribArray(2);
+	//Unbind buffers
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+HexaPrism::HexaPrism(const HexaPrismVertex* const vert) {
+	if (vert == nullptr) {
+		SetUpVerticesData(HexaPrism::vertices);
+		return;
+	}
+	SetUpVerticesData(vert);
+}
+
+void HexaPrism::Draw() {
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, sizeof(HexaPrism::indices) / sizeof(HexaPrism::indices[0]), GL_UNSIGNED_INT, 0);
+}
+
+void HexaPrism::Delete() {
+	glDeleteVertexArrays(1, &this->VAO);
+	glDeleteBuffers(1, &this->VBO);
+	glDeleteBuffers(1, &this->EBO);
+	this->EBO = 0; this->VAO = 0; this->VBO = 0;
+}
