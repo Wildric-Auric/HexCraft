@@ -7,7 +7,11 @@
 Camera* Camera::activeCam		= nullptr;
 
 void Camera::CalculateViewMatrix() {
-	this->__viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-this->__position.x, -this->__position.y, -this->__position.z));
+	glm::vec3 pos			 = glm::vec3(this->__position.x, this->__position.y, this->__position.z);
+	//Conversion from spherical coordinates to cartesian coordinates
+	//TODO::Fix rotation.x
+	glm::vec3 dir			 = glm::vec3(std::sin(this->__rotation.x) *  std::cos(this->__rotation.y), std::sin(this->__rotation.y), -std::cos(this->__rotation.y) * std::cos(this->__rotation.x)); 
+	this->__viewMatrix		 = glm::lookAt(pos, pos + dir, glm::vec3(0.0, 1.0, 0.0));
 	this->CalculateViewXprojection();
 }
 
@@ -25,21 +29,25 @@ void Camera::CalculateViewXprojection() {
 	this->VP = this->__projectionMatrix * this->__viewMatrix;
 }
 
-void Camera::MoveTo(const fVec3& newPos) {
+void Camera::UpdateTranform(const fVec3& newPos, const fVec2& newRot) {
+	if (this->__position == newPos && this->__rotation == newRot)
+		return;
 	this->__position = newPos;
+	this->__rotation = fVec2(Maths::DegToRad(newRot.x), Maths::DegToRad(newRot.y));
 	this->CalculateViewMatrix();
 }
 
-Camera::Camera(const fVec2& resolution, const fVec3& position) {
+//Angles of rotation are passed in degree
+Camera::Camera(const fVec2& resolution, const fVec3& position, const fVec2& rotation) {
 	CameraProperties prop;
 	prop.resolution = resolution;
 	this->CalculateProjectionMatrix(prop);
-	this->MoveTo(position);
+	this->UpdateTranform(position, rotation);
 }
-
-Camera::Camera(const CameraProperties& camProp) {
+//Angles of rotation are passed in degree
+Camera::Camera(const CameraProperties& camProp, const fVec3& position, const fVec2& rotation) {
 	this->CalculateProjectionMatrix(camProp);
-	this->CalculateViewMatrix();
+	this->UpdateTranform(position, rotation);
 }
 
 void Camera::Use() {

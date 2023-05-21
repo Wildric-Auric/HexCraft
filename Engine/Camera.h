@@ -1,11 +1,12 @@
-//TODO::Use my 
+//TODO::Use matrices in Maths.h instead of glm
+
 #include "glm/glm.hpp"
 #include "Globals.h"
 
 
 #define DEFAULT_RESOLUTION_X 720.0f
 #define DEFAULT_RESOLUTION_Y 480.0f
-#define DEFAULT_NEAR_PLANE   DEFAULT_RESOLUTION_Y * 0.5f
+#define DEFAULT_NEAR_PLANE   DEFAULT_RESOLUTION_Y * 0.001f
 #define DEFAULT_FAR_PLANE    16777215.0f //2^24 - 1  = 4438 meter
 #define DEFAULT_ORTHO_PLANE  DEFAULT_RESOLUTION_Y * 0.5f
 
@@ -27,19 +28,21 @@ public:
 	glm::mat4 __viewMatrix             = glm::mat4(1.0);
 	glm::mat4 __projectionMatrix       = glm::mat4(1.0);
 	fVec3	  __position               = fVec3(0.0f, 0.0f, 1.0f);
+	//rotation.x is angle between XZ and rotation.y between XY, stored in radian
+	fVec2     __rotation               = fVec2(0.0f, 0.0f);
 	CameraProperties  __prop;
 
 	//Stores the result of projection matrix multiplied by view matrix, should be updated with the update of the latters
-	glm::mat4 VP;
+	glm::mat4 VP = glm::mat4(1.0);
 
 	static Camera* activeCam;
 
 	Camera() {};
-	Camera(const fVec2& resolution, const fVec3& position = fVec3(0.0f, 0.0f, 1.0f));
-	Camera(const CameraProperties&  camProp);
+	Camera(const fVec2& resolution, const fVec3& position = fVec3(0.0f, 0.0f, 1.0f), const fVec2& rotation = fVec2(0.0f, 0.0f));
+	Camera(const CameraProperties&  camProp, const fVec3& position = fVec3(0.0f, 0.0f, 1.0f), const fVec2& rotation = fVec2(0.0f, 0.0f));
 	void CalculateViewMatrix();
 	void CalculateViewXprojection();
 	void CalculateProjectionMatrix(const CameraProperties& camProp);
-	void MoveTo(const fVec3& newPos);
+	void UpdateTranform(const fVec3& newPos, const fVec2& newRot = fVec2());
 	void Use();
-};	
+};
