@@ -13,11 +13,11 @@ ShaderString Shader::Parse(std::string path) { //For now it's just fragment and 
 	}
 	for (std::string line; std::getline(file, line);) {
 		if (line.find("//fragment shader") != -1)
-			current = ShaderType::Fragment;
+			current = ShaderType::FragmentShader;
 		else if (line.find("//vertex shader") != -1)   
-			current = ShaderType::Vertex;
-		if      (current == ShaderType::Fragment)      ret.fragment += line + '\n';
-		else if (current == ShaderType::Vertex)		   ret.vertex   += line + '\n';
+			current = ShaderType::VertexShader;
+		if      (current == ShaderType::FragmentShader)      ret.fragment += line + '\n';
+		else if (current == ShaderType::VertexShader)		 ret.vertex   += line + '\n';
 	}
 	file.close();
 	this->path = path;

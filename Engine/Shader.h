@@ -5,8 +5,8 @@
 
 enum ShaderType {
 	None,
-	Vertex,
-	Fragment
+	VertexShader,
+	FragmentShader,
 };
 
 enum GLSLDataType {
