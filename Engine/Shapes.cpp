@@ -33,9 +33,10 @@ HexagonVertex::HexagonVertex(fVec3 position, float textureIndex) {
 	this->textureIndex = textureIndex;
 }
 
-HexaPrismVertex::HexaPrismVertex(fVec3 position, fVec2 uv, float textureIndex) {
+HexaPrismVertex::HexaPrismVertex(const fVec3& position, const fVec2& uv, const fVec3& up, float textureIndex) {
 	this->position     = position;
 	this->uv		   = uv;
+	this->upVector     = up;
 	this->textureIndex = textureIndex;
 }
 
@@ -316,28 +317,50 @@ uint32 HexaPrism::indices[60] = {
 	10, 0, 11, 0, 2, 11,
 	
 	//Bases
-	10, 8, 0, 
-	8,  6, 0, 6, 1, 0,
-	6,  4, 1,
-	11, 2, 9,
-	2,  3, 9, 3, 7, 9,
-	3,  5, 7
+	12, 13, 17, 
+	13, 14, 17, 14, 16, 17,
+	14,  15, 16,
+	19,  18, 23,
+	20,  19, 22, 19, 23, 22,
+	22,  21, 20
 };
 
-HexaPrismVertex HexaPrism::vertices[12] = {
-	HexaPrismVertex({ -0.25, -0.5, 0.5}, {0.0f, 0.0f}, 0.0f),
-	HexaPrismVertex({  0.25, -0.5, 0.5}, {0.0f, 1.0f}, 0.0f),
-	HexaPrismVertex({ -0.25,  0.5, 0.5}, {1.0f, 0.0f}, 0.0f),
-	HexaPrismVertex({  0.25,  0.5, 0.5}, {1.0f, 1.0f}, 0.0f),
+static float xcos = std::cos(Maths::piDiv3);
+static float xsin = std::sin(Maths::piDiv3);
 
-	HexaPrismVertex({  0.5,  -0.5, 0.0},  {0.0, 0.0},  0.0f),
-	HexaPrismVertex({  0.5,   0.5, 0.0},  {0.0, 1.0},  0.0f),
-	HexaPrismVertex({  0.25, -0.5, -0.5}, {1.0, 0.0},  0.0f),
-	HexaPrismVertex({  0.25,  0.5, -0.5}, {1.0, 1.0},  0.0f),
-	HexaPrismVertex({ -0.25, -0.5, -0.5}, {0.0, 0.0},  0.0f),
-	HexaPrismVertex({ -0.25,  0.5, -0.5}, {0.0, 1.0},  0.0f),
-	HexaPrismVertex({ -0.5,  -0.5,  0.0}, {1.0, 0.0},  0.0f),
-	HexaPrismVertex({ -0.5,   0.5,  0.0}, {1.0, 1.0},  0.0f)
+static float ycos = std::cos(PI * 2.0 / 3.0);
+static float ysin = std::sin(PI * 2.0 / 3.0);
+
+
+
+
+HexaPrismVertex HexaPrism::vertices[24] = {
+	HexaPrismVertex({ -0.25, -0.5, 0.5}, {0.0f, 0.0f}, {0.0, 1.0, 0.0}, 0.0f),
+	HexaPrismVertex({  0.25, -0.5, 0.5}, {0.0f, 1.0f}, {0.0, 1.0, 0.0}, 0.0f),
+	HexaPrismVertex({ -0.25,  0.5, 0.5}, {1.0f, 0.0f}, {0.0,-1.0, 0.0}, 0.0f),
+	HexaPrismVertex({  0.25,  0.5, 0.5}, {1.0f, 1.0f}, {0.0,-1.0, 0.0}, 0.0f),
+	HexaPrismVertex({  0.5,  -0.5, 0.0},  {0.0, 0.0} , {0.0, 1.0, 0.0}, 0.0f),
+	HexaPrismVertex({  0.5,   0.5, 0.0},  {0.0, 1.0} , {0.0,-1.0, 0.0}, 0.0f),
+	HexaPrismVertex({  0.25, -0.5, -0.5}, {1.0, 0.0} , {0.0, 1.0, 0.0}, 0.0f),
+	HexaPrismVertex({  0.25,  0.5, -0.5}, {1.0, 1.0} , {0.0,-1.0, 0.0}, 0.0f),
+	HexaPrismVertex({ -0.25, -0.5, -0.5}, {0.0, 0.0} , {0.0, 1.0, 0.0}, 0.0f),
+	HexaPrismVertex({ -0.25,  0.5, -0.5}, {0.0, 1.0} , {0.0,-1.0, 0.0}, 0.0f),
+	HexaPrismVertex({ -0.5,  -0.5,  0.0}, {1.0, 0.0} , {0.0, 1.0, 0.0}, 0.0f),
+	HexaPrismVertex({ -0.5,   0.5,  0.0}, {1.0, 1.0} , {0.0,-1.0, 0.0}, 0.0f),
+				
+	HexaPrismVertex({ -0.5,    0.5,  0.0}, {0.0,  0.5} , {0.0, 1.0, 0.0}, 2.0f),
+	HexaPrismVertex({ -0.25,   0.5,  0.5}, {0.25, 0.0} , {0.0, 1.0, 0.0}, 2.0f),
+	HexaPrismVertex({  0.25,   0.5,  0.5}, {0.75, 0.0} , {0.0, 1.0, 0.0}, 2.0f),
+	HexaPrismVertex({  0.5 ,   0.5,  0.0}, {1.0,  0.5} , {0.0, 1.0, 0.0}, 2.0f),
+	HexaPrismVertex({  0.25,   0.5, -0.5}, {0.75, 0.25} , {0.0, 1.0, 0.0}, 2.0f),
+	HexaPrismVertex({ -0.25 ,  0.5, -0.5}, {1.0, 1.0} , {0.0, 1.0, 0.0}, 2.0f),
+
+	HexaPrismVertex({ -0.5,    -0.5,  0.0}, {0.0,  0.5}   , {0.0, -1.0, 0.0}, 2.0f),
+	HexaPrismVertex({ -0.25,   -0.5,  0.5}, {0.25, 0.0}   , {0.0, -1.0, 0.0}, 2.0f),
+	HexaPrismVertex({  0.25,   -0.5,  0.5}, {0.75, 0.0}   , {0.0, -1.0, 0.0}, 2.0f),
+	HexaPrismVertex({  0.5 ,   -0.5,  0.0}, {1.0,  0.5}   , {0.0, -1.0, 0.0}, 2.0f),
+	HexaPrismVertex({  0.25,   -0.5, -0.5}, {0.75, 0.25}  , {0.0, -1.0, 0.0}, 2.0f),
+	HexaPrismVertex({ -0.25 ,  -0.5, -0.5}, {1.0, 1.0}    , {0.0, -1.0, 0.0}, 2.0f),
 };
 
 void HexaPrism::SetUpVerticesData(const HexaPrismVertex* const vert) {
@@ -358,9 +381,13 @@ void HexaPrism::SetUpVerticesData(const HexaPrismVertex* const vert) {
 
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(HexaPrismVertex), (void*)(sizeof(HexaPrismVertex::position)));
 	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(HexaPrismVertex), (void*)sizeof(HexaPrismVertex::position + sizeof(HexaPrismVertex::uv)));
+	
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(HexaPrismVertex), (void*)(sizeof(HexaPrismVertex::position) + sizeof(HexaPrismVertex::uv)));
 	glEnableVertexAttribArray(2);
+
+	int size = sizeof(HexaPrismVertex::position) + sizeof(HexaPrismVertex::uv) + sizeof(HexaPrismVertex::upVector);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(HexaPrismVertex), (void*)(size));
+	glEnableVertexAttribArray(3);
 	//Unbind buffers
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

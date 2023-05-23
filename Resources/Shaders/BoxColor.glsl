@@ -1,0 +1,104 @@
+//vertex shader
+#version 330 core
+
+layout (location = 0) in vec3  attribPos;
+layout (location = 1) in vec2  texCoord;
+layout (location = 2) in vec3  upVector;
+layout (location = 3) in float texIndex;
+
+uniform mat4 uVP            = mat4(1.0);
+uniform mat4 uModel         = mat4(1.0);
+
+out vec2  uv;
+out vec3  position;
+flat out  vec3  f_up;
+flat out  vec3  f_originPosition;
+flat out  float f_texInd;
+
+flat out  vec3  f_origin;
+
+
+out vec3 worldPosition;
+
+void main() {
+    mat4 model       = mat4(1.0);
+    vec4 localPos    = vec4(attribPos, 1.0);
+    gl_Position      = uVP * uModel * localPos;
+    uv               = texCoord;
+
+    position         = vec3(vec4(attribPos, 1.0));
+
+    worldPosition    = vec3(uModel * vec4(attribPos, 1.0));
+    f_origin         = vec3( vec4(0.0, 0.0, 0.0, 1.0));
+
+    f_up             = vec3(vec4(upVector, 1.0)) ;
+    f_originPosition = position;
+    f_texInd         = texIndex;
+}
+
+//fragment shader
+#version 330 core
+
+uniform vec3 uCamPosition  = vec3(1.0);
+uniform vec3 uLightSource  = vec3(0.0, 1000.0, -10000.0);
+
+in vec2 uv;
+in vec3 position;
+in vec3 worldPosition;
+
+flat in vec3  f_origin;
+flat in vec3  f_up;
+flat in vec3  f_originPosition;
+flat in float f_texInd;
+out vec4 FragColor;
+
+
+#define edge 0.02
+#define edgeColor vec3(0.3)
+
+vec3  lightColor        = vec3(1.0, 1.0, 1.0);
+vec3  ambientLight      = vec3(0.01);
+float specularStrength = 0.05;
+
+
+void main() {
+    vec3 fragColor = vec3(1.0);
+
+    if (uv.x > 1.0-edge || uv.x < edge || uv.y > 1.0 - edge || uv.y < edge) {
+      fragColor = edgeColor;
+    }
+
+    vec3 normal;
+
+    if (f_texInd < 1.0) {
+        normal       =   cross(f_up, position - f_originPosition);
+       float sign    =   dot(normal, f_originPosition - f_origin);
+
+       if (sign < 0.0)
+          normal   = cross(position - f_originPosition, f_up);
+    }
+
+    else {
+            normal   = f_up;
+    }
+
+    normal        = normalize(normal);
+    vec3 lightDir = normalize(uLightSource - worldPosition);
+    vec3 diffuse  = max(dot(normal, lightDir), 0.0) * lightColor;
+
+
+    vec3 viewDir       = normalize(uCamPosition -  worldPosition);
+    vec3 reflectDir    = reflect(-lightDir, normal);
+
+    float spec     = pow(max(dot(viewDir, reflectDir), 0.0), 256);
+    vec3 specular  = spec * specularStrength * lightColor; 
+
+    vec3 color   = (ambientLight + diffuse + specular) * fragColor;
+    
+    FragColor = vec4(color, 1.0);
+}
+
+
+
+
+

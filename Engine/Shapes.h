@@ -1,5 +1,5 @@
 #include "Globals.h"
-
+//TODO::Pass vectors as references for all vertex structs
 struct Vertex {
 	Vertex(fVec3 position, fVec2 uv);
 	fVec3 position;
@@ -20,9 +20,10 @@ struct HexagonVertex {
 };
 
 struct HexaPrismVertex {
-	HexaPrismVertex(fVec3 position, fVec2 uv, float textureIndex);
+	HexaPrismVertex(const fVec3& position, const fVec2& uv, const fVec3& upVector,float textureIndex);
 	fVec3 position;
 	fVec2 uv;
+	fVec3 upVector;
 	float textureIndex;
 };
 
@@ -122,7 +123,7 @@ private:
 public:
 	static HexaPrism instance;
 	static uint32 indices[60];
-	static HexaPrismVertex vertices[12];
+	static HexaPrismVertex vertices[24];
 
 	HexaPrism() {};
 

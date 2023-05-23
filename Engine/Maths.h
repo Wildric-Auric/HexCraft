@@ -5,6 +5,10 @@
 
 namespace Maths {
 #define PI 3.14159265359
+	constexpr float piDiv3 = PI/3.0;
+	constexpr float piDiv4 = PI/4.0;
+	constexpr float piDiv6 = PI/6.0;
+
 
 	inline float DegToRad(float angle) {
 		constexpr float temp = PI * 1.0 /180.0f;

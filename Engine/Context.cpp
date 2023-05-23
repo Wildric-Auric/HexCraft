@@ -57,7 +57,7 @@ bool Context::Init(int width, int height) {
 	}
 
 	glEnable(GL_CULL_FACE);  //glFrontFace(GL_FRONT) is default setting
-
+	glProvokingVertex(GL_FIRST_VERTEX_CONVENTION);
 	return 1;
 }
 

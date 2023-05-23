@@ -16,7 +16,6 @@ int main() {
 	if (!Context::Init(DEFAULT_RESOLUTION_X, DEFAULT_RESOLUTION_Y))
 		return 0;
 	Context::EnableDepthTest(1);
-
 	float unitX = 500.0;
 	float unitZ = 500.0;
 	float unitY = 1000.0;
@@ -25,15 +24,17 @@ int main() {
 			float x = i * unitX * 0.75;
 			float z = j * unitZ;
 			if (i % 2) z += unitZ * 0.5;
-			mapTest.push_back(fVec3(x,-2000.0f, -z));
+			float r = ((double)std::rand()  / (double)(RAND_MAX)) + 1;
+			int y = -2000.0 + 1000.0 * r;
+			mapTest.push_back(fVec3(x,y, -z));
 		}
 	}
 
 	Shape::Init();
 	Gui::Init();
 
-	Shader shader  = Shader("Resources\\Shaders\\BoxColor.shader");
-	Shader shader2 = Shader("Resources\\Shaders\\Color.shader");
+	Shader shader  = Shader("Resources\\Shaders\\BoxColor.glsl");
+	Shader shader2 = Shader("Resources\\Shaders\\Color.glsl");
 
 	Camera cam    = Camera(fVec2(DEFAULT_RESOLUTION_X, DEFAULT_RESOLUTION_Y), fVec3(0.0, 0.0, 0.0));
 	cam.Use();
@@ -74,18 +75,22 @@ int main() {
 
 		 model = glm::scale(model, glm::vec3(scale.x, scale.y, scale.z));
 		
-		 glm::mat4 temp = cam.activeCam->VP * model;
-		 shader.SetUniform(GLSLDataType::Mat4f, "uMVP", { &temp[0][0] });
+		 glm::mat4 temp = cam.activeCam->VP;
+		 shader.SetUniform(GLSLDataType::Mat4f, "uVP",	  { &temp[0][0] });
+		 shader.SetUniform(GLSLDataType::Mat4f, "uModel", { &model[0][0]});
+
+		 shader.SetUniform(GLSLDataType::Float3, "uCamPosition", {&cam.__position});
+		 shader.SetUniform(GLSLDataType::Float3, "uLightSource", {&position});
 
 		 HexaPrism::instance.Draw();
-
 		 //Drawing the map
 		 for (const fVec3& pos : mapTest) {
 			 model = glm::mat4(1.0);
 			 model = glm::translate(model, glm::vec3(pos.x, pos.y, pos.z));
 			 model = glm::scale(model, glm::vec3(unitX, unitY, unitZ));
-			 glm::mat4 temp = cam.activeCam->VP * model;
-			 shader.SetUniform(GLSLDataType::Mat4f, "uMVP", { &temp[0][0] });
+			 glm::mat4 temp = cam.activeCam->VP;
+			 shader.SetUniform(GLSLDataType::Mat4f, "uVP",    { &temp[0][0]  });
+			 shader.SetUniform(GLSLDataType::Mat4f, "uModel", { &model[0][0] });
 
 			 HexaPrism::instance.Draw();
 		 }

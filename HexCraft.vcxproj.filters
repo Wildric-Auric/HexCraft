@@ -1393,7 +1393,7 @@
     <None Include="LibHeaders\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Resources\Shaders\BoxColor.shader" />
-    <None Include="Resources\Shaders\Color.shader" />
+    <None Include="Resources\Shaders\BoxColor.glsl" />
+    <None Include="Resources\Shaders\Color.glsl" />
   </ItemGroup>
 </Project>
