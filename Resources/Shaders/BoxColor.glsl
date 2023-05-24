@@ -39,8 +39,12 @@ void main() {
 //fragment shader
 #version 330 core
 
-uniform vec3 uCamPosition  = vec3(1.0);
-uniform vec3 uLightSource  = vec3(0.0, 1000.0, -10000.0);
+uniform vec3      uCamPosition  = vec3(1.0);
+uniform vec3      uLightSource  = vec3(0.0, 1000.0, -10000.0);
+uniform sampler2D uTex0;
+uniform float uSpecularStrength = 0.0;
+uniform float uSpecularPower    = 256;
+
 
 in vec2 uv;
 in vec3 position;
@@ -52,24 +56,28 @@ flat in vec3  f_originPosition;
 flat in float f_texInd;
 out vec4 FragColor;
 
-
-#define edge 0.02
-#define edgeColor vec3(0.3)
-
 vec3  lightColor        = vec3(1.0, 1.0, 1.0);
-vec3  ambientLight      = vec3(0.01);
-float specularStrength = 0.05;
+vec3  ambientLight      = vec3(0.1);
 
 
 void main() {
     vec3 fragColor = vec3(1.0);
-
-    if (uv.x > 1.0-edge || uv.x < edge || uv.y > 1.0 - edge || uv.y < edge) {
-      fragColor = edgeColor;
-    }
-
     vec3 normal;
 
+    vec2 newUV   = uv;
+    if (f_texInd == 0.0f) {
+        newUV = vec2(uv.x * 0.5, uv.y);
+    }
+
+    else if (f_texInd == 1.0f) {
+       newUV = uv * 0.5 + 0.5;
+    }
+
+    else {
+       newUV = vec2(uv.x*0.5 + 0.5, uv.y * 0.5);
+    }
+
+    fragColor    = texture2D(uTex0, newUV).xyz;
     if (f_texInd < 1.0) {
         normal       =   cross(f_up, position - f_originPosition);
        float sign    =   dot(normal, f_originPosition - f_origin);
@@ -90,8 +98,8 @@ void main() {
     vec3 viewDir       = normalize(uCamPosition -  worldPosition);
     vec3 reflectDir    = reflect(-lightDir, normal);
 
-    float spec     = pow(max(dot(viewDir, reflectDir), 0.0), 256);
-    vec3 specular  = spec * specularStrength * lightColor; 
+    float spec     = pow(max(dot(viewDir, reflectDir), 0.0), uSpecularPower);
+    vec3 specular  = spec * uSpecularStrength * lightColor; 
 
     vec3 color   = (ambientLight + diffuse + specular) * fragColor;
     
