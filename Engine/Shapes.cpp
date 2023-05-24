@@ -336,8 +336,8 @@ static float ysin = std::sin(PI * 2.0 / 3.0);
 
 HexaPrismVertex HexaPrism::vertices[24] = {
 	HexaPrismVertex({ -0.25, -0.5, 0.5}, {0.0f, 0.0f}, {0.0, 1.0, 0.0}, 0.0f),
-	HexaPrismVertex({  0.25, -0.5, 0.5}, {0.0f, 1.0f}, {0.0, 1.0, 0.0}, 0.0f),
-	HexaPrismVertex({ -0.25,  0.5, 0.5}, {1.0f, 0.0f}, {0.0,-1.0, 0.0}, 0.0f),
+	HexaPrismVertex({  0.25, -0.5, 0.5}, {1.0f, 0.0f}, {0.0, 1.0, 0.0}, 0.0f),
+	HexaPrismVertex({ -0.25,  0.5, 0.5}, {0.0f, 1.0f}, {0.0,-1.0, 0.0}, 0.0f),
 	HexaPrismVertex({  0.25,  0.5, 0.5}, {1.0f, 1.0f}, {0.0,-1.0, 0.0}, 0.0f),
 	HexaPrismVertex({  0.5,  -0.5, 0.0},  {0.0, 0.0} , {0.0, 1.0, 0.0}, 0.0f),
 	HexaPrismVertex({  0.5,   0.5, 0.0},  {0.0, 1.0} , {0.0,-1.0, 0.0}, 0.0f),
