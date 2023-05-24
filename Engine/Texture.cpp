@@ -1,3 +1,7 @@
+#ifndef STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#endif
+
 #include "Texture.h"
 #include "stb/stb_image.h"
 #include "Log.h"
