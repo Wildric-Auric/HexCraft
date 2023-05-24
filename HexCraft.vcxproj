@@ -141,6 +141,7 @@
     <ClCompile Include="Engine\Context.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\Shapes.cpp" />
+    <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="LibHeaders\glm\detail\glm.cpp" />
     <ClCompile Include="LibHeaders\imgui\imgui.cpp" />
     <ClCompile Include="LibHeaders\imgui\imgui_demo.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Engine\Maths.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\Shapes.h" />
+    <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="LibHeaders\glm\common.hpp" />
     <ClInclude Include="LibHeaders\glm\detail\compute_common.hpp" />
     <ClInclude Include="LibHeaders\glm\detail\compute_vector_relational.hpp" />
