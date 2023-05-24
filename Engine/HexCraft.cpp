@@ -28,15 +28,15 @@ int main() {
 			float x = i * unitX * 0.75;
 			float z = j * unitZ;
 			if (i % 2) z += unitZ * 0.5;
-			float r = ((double)std::rand()  / (double)(RAND_MAX)) + 1;
-			int y = -2000.0 + 1000.0 * r;
+			//float r = ((double)std::rand()  / (double)(RAND_MAX)) + 1;
+			int y = -2000.0 + 1000.0;
 			mapTest.push_back(fVec3(x,y, -z));
 		}
 	}
 
 	Shape::Init();
 	Gui::Init();
-
+	
 	Shader shader  = Shader("Resources\\Shaders\\BoxColor.glsl");
 	Shader shader2 = Shader("Resources\\Shaders\\Color.glsl");
 
@@ -74,6 +74,12 @@ int main() {
 			cam.UpdateTranform(cameraPosition, cameraRotation);
 		}
 
+
+		ImGui::DragFloat("UnitX", &unitX);
+		ImGui::DragFloat("UnitY", &unitY);
+		ImGui::DragFloat("UnitZ", &unitZ);
+		
+
 		ImGui::End();
 
 		 Context::Clear(0.04,0.04,0.1);
@@ -101,16 +107,24 @@ int main() {
 		 shader.SetUniform(GLSLDataType::Float, "uSpecularPower", {&specularPower});
 		 
 		 HexaPrism::instance.Draw();
-		 //Drawing the map
-		 for (const fVec3& pos : mapTest) {
-			 model = glm::mat4(1.0);
-			 model = glm::translate(model, glm::vec3(pos.x, pos.y, pos.z));
-			 model = glm::scale(model, glm::vec3(unitX, unitY, unitZ));
-			 glm::mat4 temp = cam.activeCam->VP;
-			 shader.SetUniform(GLSLDataType::Mat4f, "uVP",    { &temp[0][0]  });
-			 shader.SetUniform(GLSLDataType::Mat4f, "uModel", { &model[0][0] });
 
-			 HexaPrism::instance.Draw();
+		 //Drawing the map
+		 for (int i = 0; i < 30; i++) {
+			 for (int j = 0; j < 30; ++j) {
+				float x = i * unitX * 0.75;
+				float z = j * unitZ;
+				if (i % 2) z += unitZ * 0.5;
+				//float r = ((double)std::rand()  / (double)(RAND_MAX)) + 1;
+				int y = -2000.0;
+			    // mapTest.push_back(fVec3(x, y, -z));
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(x, y, -z));
+				model = glm::scale(model, glm::vec3(unitX, unitY, unitZ));
+				glm::mat4 temp = cam.activeCam->VP;
+				shader.SetUniform(GLSLDataType::Mat4f, "uVP",    { &temp[0][0]  });
+				shader.SetUniform(GLSLDataType::Mat4f, "uModel", { &model[0][0] });
+				HexaPrism::instance.Draw();
+			 }
 		 }
 
 		 Gui::End();

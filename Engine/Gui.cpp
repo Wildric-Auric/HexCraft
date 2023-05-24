@@ -10,7 +10,7 @@ void Gui::Init() {
 	ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)Context::window, true);
 	ImGui_ImplOpenGL3_Init();
 	static ImGuiIO& io = ImGui::GetIO();
-	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.Fonts->AddFontFromFileTTF("Resources\\fonts\\arial.ttf", 16.0f);
 }
 
