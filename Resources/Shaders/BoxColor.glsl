@@ -48,7 +48,7 @@ uniform float uSpecularPower    = 256;
 
 in vec2 uv;
 in vec3 position;
-in vec3 worldPosition;
+in vec3 worldPosition;  
 
 flat in vec3  f_origin;
 flat in vec3  f_up;
@@ -56,8 +56,8 @@ flat in vec3  f_originPosition;
 flat in float f_texInd;
 out vec4 FragColor;
 
-vec3  lightColor        = vec3(1.0, 1.0, 1.0);
-vec3  ambientLight      = vec3(0.1);
+vec3  lightColor        = vec3(1.0);
+vec3  ambientLight      = vec3(0.25); 
 
 
 void main() {
