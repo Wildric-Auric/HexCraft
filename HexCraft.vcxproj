@@ -136,9 +136,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\FPS.cpp" />
     <ClCompile Include="Engine\Gui.cpp" />
     <ClCompile Include="Engine\HexCraft.cpp" />
     <ClCompile Include="Engine\Context.cpp" />
+    <ClCompile Include="Engine\Inputs.cpp" />
+    <ClCompile Include="Engine\Player.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\Shapes.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
@@ -155,10 +158,13 @@
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Context.h" />
+    <ClInclude Include="Engine\FPS.h" />
     <ClInclude Include="Engine\Globals.h" />
     <ClInclude Include="Engine\Gui.h" />
+    <ClInclude Include="Engine\Inputs.h" />
     <ClInclude Include="Engine\Log.h" />
     <ClInclude Include="Engine\Maths.h" />
+    <ClInclude Include="Engine\Player.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\Shapes.h" />
     <ClInclude Include="Engine\Texture.h" />
