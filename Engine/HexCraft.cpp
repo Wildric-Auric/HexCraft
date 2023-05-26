@@ -6,6 +6,7 @@
 #include "Gui.h"
 #include "Texture.h"
 #include "FPS.h"
+#include "Player.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -52,7 +53,7 @@ int main() {
 	fVec3 cameraPosition = cam.__position;
 	fVec2 cameraRotation = fVec2(Maths::RadToDeg(cam.__rotation.x), Maths::RadToDeg(cam.__rotation.y));
 
-	Image   im  = Image("Resources\\Images\\TexturePackHex\\WoodHex.png");
+	Image   im  = Image("Resources\\Images\\GrassHex.png");
 	Texture tex = Texture(im);
 
 	float specularStrength = 0.0f;
@@ -60,9 +61,14 @@ int main() {
 
 	tex.Bind();
 
+
+	Player player = Player();
+
+	player.Start();
+
 	while (!Context::shouldTerminate) {
 		FPS::BeginFPSCalc();
-
+		player.Update();
 
 
 		Gui::Begin();
