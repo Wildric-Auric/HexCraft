@@ -485,8 +485,12 @@ namespace Maths {
 	}
 
 
+
+	//SphericalToCartesian(fVec2(0.0, 0.0)) returns (0.0, 0.0, -1.0) in OpenGL Right handed coordinates system
+	// Where x axis is oriented to the right, and Y to the top.
+	// The rotation is positive from -Z to -X and vertically from -Z to Y 
 	inline Vector3<float> SphericalToCartesian(const Vector2<float>& rotCoord) {
-		return Vector3<float>(std::sin(rotCoord.x) * std::cos(rotCoord.y), std::sin(rotCoord.y), -std::cos(rotCoord.y) * std::cos(rotCoord.x));
+		return Vector3<float>(-std::sin(rotCoord.x) * std::cos(rotCoord.y), std::sin(rotCoord.y), -std::cos(rotCoord.y) * std::cos(rotCoord.x));
 	}
 
 	//TODO::Add cartesian to spherical
