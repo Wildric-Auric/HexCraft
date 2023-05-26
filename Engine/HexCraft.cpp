@@ -47,8 +47,8 @@ int main() {
 	fVec3 position = fVec3(0.0, 1250.0,-731.0);
 	fVec3 rotation = fVec3(0.0, 0.0, 0.0);
 
-	fVec3 cameraPosition = fVec3();
-	fVec2 cameraRotation = fVec2();
+	fVec3 cameraPosition = cam.__position;
+	fVec2 cameraRotation = fVec2(Maths::RadToDeg(cam.__rotation.x), Maths::RadToDeg(cam.__rotation.y));
 
 	Image   im  = Image("Resources\\Images\\GrassHex.png");
 	Texture tex = Texture(im);
