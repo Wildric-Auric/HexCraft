@@ -9,9 +9,9 @@ Camera* Camera::activeCam		= nullptr;
 void Camera::CalculateViewMatrix() {
 	glm::vec3 pos			 = glm::vec3(this->__position.x, this->__position.y, this->__position.z);
 	//Conversion from spherical coordinates to cartesian coordinates
-	//TODO::Fix rotation.x
-	glm::vec3 dir			 = glm::vec3(std::sin(this->__rotation.x) *  std::cos(this->__rotation.y), std::sin(this->__rotation.y), -std::cos(this->__rotation.y) * std::cos(this->__rotation.x)); 
-	this->__viewMatrix		 = glm::lookAt(pos, pos + dir, glm::vec3(0.0, 1.0, 0.0));
+	fVec3 temp                     = Maths::SphericalToCartesian(this->__rotation);
+	glm::vec3 dir			       = glm::vec3(temp.x, temp.y, temp.z);
+	this->__viewMatrix		       = glm::lookAt(pos, pos + dir, glm::vec3(0.0, 1.0, 0.0));
 	this->CalculateViewXprojection();
 }
 

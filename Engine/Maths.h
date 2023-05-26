@@ -485,4 +485,11 @@ namespace Maths {
 	}
 
 
+	inline Vector3<float> SphericalToCartesian(const Vector2<float>& rotCoord) {
+		return Vector3<float>(std::sin(rotCoord.x) * std::cos(rotCoord.y), std::sin(rotCoord.y), -std::cos(rotCoord.y) * std::cos(rotCoord.x));
+	}
+
+	//TODO::Add cartesian to spherical
+
+
 }
