@@ -198,6 +198,7 @@ namespace Maths {
 
 		Vector3 Project(Vector3 const& vec1);
 		Vector3 Rotate(Vector3  const& vec1);
+		Vector3 Cross(Vector3 const& vec1);
 
 		Vector3 operator + (Vector3 const& vec1);
 		Vector3 operator + (T const& num);
@@ -225,6 +226,15 @@ namespace Maths {
 	//Vec1 should be normalized before passed
 	Vector3<T> Vector3<T>::Project(Vector3 const& vec1) {
 		return this->Dot(vec1) * vec1;
+	}
+
+	template<typename T>
+	Vector3<T> Vector3<T>::Cross(Vector3 const& vec1) {
+		Vector3<T> newVec;
+		newVec.x = this->y * vec1.z - this->z * vec1.y;
+		newVec.y = this->z * vec1.x - this->x * vec1.z;
+		newVec.z = this->x * vec1.y - this->y * vec1.x;
+		return newVec;
 	}
 
 	template<typename T>
@@ -521,6 +531,7 @@ namespace Maths {
 	//SphericalToCartesian(fVec2(0.0, 0.0)) returns (0.0, 0.0, -1.0) in OpenGL Right handed coordinates system
 	// Where x axis is oriented to the right, and Y to the top.
 	// The rotation is positive from -Z to -X and vertically from -Z to Y 
+	//Angles are In radian
 	inline Vector3<float> SphericalToCartesian(const Vector2<float>& rotCoord) {
 		return Vector3<float>(-std::sin(rotCoord.x) * std::cos(rotCoord.y), std::sin(rotCoord.y), -std::cos(rotCoord.y) * std::cos(rotCoord.x));
 	}
