@@ -33,7 +33,8 @@ namespace Maths {
 		float magnitude();
 		T Dot(Vector2 const& vec1);
 		Vector2 Project(Vector2 const& vec1);
-		Vector2 Rotate(float const& angle); //In degree
+		//Angle In degree
+		Vector2 Rotate(float const& angle); 
 
 		Vector2 operator + (Vector2 const& vec1);
 		Vector2 operator + (T const& num);
@@ -196,6 +197,7 @@ namespace Maths {
 		T Dot(Vector3 const& vec1);
 
 		Vector3 Project(Vector3 const& vec1);
+		Vector3 Rotate(Vector3  const& vec1);
 
 		Vector3 operator + (Vector3 const& vec1);
 		Vector3 operator + (T const& num);
@@ -220,9 +222,39 @@ namespace Maths {
 	};
 
 	template<typename T>
-	//Vec1 should be normalized
+	//Vec1 should be normalized before passed
 	Vector3<T> Vector3<T>::Project(Vector3 const& vec1) {
-		return vec1; //TODO::
+		return this->Dot(vec1) * vec1;
+	}
+
+	template<typename T>
+	//The parameter is a vector3 of rotations in degree, which are are in the order x,y,z
+	//TODO::Test the function
+	Vector3<T> Vector3<T>::Rotate(Vector3 const& vec1) {
+		Vector3<T> vec = *this;		
+		Vector3<float> radAngles = Vector3<float>(DegToRad(vec1.x), DegToRad(vec1.y), DegToRad(vec1.z));
+		if (radAngles.x != 0.0) {
+			float sinn = std::sin(radAngles.x);
+			float coss = std::cos(radAngles.x);
+			vec.y = coss * vec.y - sinn * vec.z;
+			vec.z = sinn * vec.y + coss * vec.z;
+		}
+
+		if (radAngles.y != 0.0) {
+			float sinn = std::sin(radAngles.y);
+			float coss = std::cos(radAngles.y);
+			vec.x = coss * vec.x + sinn * vec.z;
+			vec.z = -sinn* vec.x + coss * vec.z;
+		}
+
+		if (radAngles.z != 0.0) {
+			float sinn = std::sin(radAngles.y);
+			float coss = std::cos(radAngles.y);
+			vec.x = coss * vec.x - sinn * vec.y;
+			vec.y = sinn * vec.x - coss * vec.y;
+		}
+
+
 	}
 
 	template<class T>
