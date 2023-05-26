@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Gui.h"
 #include "Texture.h"
+#include "FPS.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -40,7 +41,8 @@ int main() {
 	Shader shader  = Shader("Resources\\Shaders\\BoxColor.glsl");
 	Shader shader2 = Shader("Resources\\Shaders\\Color.glsl");
 
-	Camera cam    = Camera(fVec2(DEFAULT_RESOLUTION_X, DEFAULT_RESOLUTION_Y), fVec3(0.0, 1250.0, 731.0), fVec2(0.0, -31.0));
+	Camera cam		  = Camera(fVec2(DEFAULT_RESOLUTION_X, DEFAULT_RESOLUTION_Y), fVec3(0.0, 1250.0, 731.0), fVec2(0.0, -31.0));
+	Camera::activeCam = &cam;
 	cam.Use();
 
 	fVec3 scale	   = fVec3(200.0, 200.0, 200.0);
@@ -50,7 +52,7 @@ int main() {
 	fVec3 cameraPosition = cam.__position;
 	fVec2 cameraRotation = fVec2(Maths::RadToDeg(cam.__rotation.x), Maths::RadToDeg(cam.__rotation.y));
 
-	Image   im  = Image("Resources\\Images\\GrassHex.png");
+	Image   im  = Image("Resources\\Images\\TexturePackHex\\WoodHex.png");
 	Texture tex = Texture(im);
 
 	float specularStrength = 0.0f;
@@ -59,9 +61,17 @@ int main() {
 	tex.Bind();
 
 	while (!Context::shouldTerminate) {
+		FPS::BeginFPSCalc();
+
+
+
 		Gui::Begin();
 
 		ImGui::Begin("Debug");
+
+		ImGui::Text("FPS:%lf", FPS::fps);
+		ImGui::Text("DeltaTime:%lf", FPS::averageDeltaTime);
+
 		ImGui::DragFloat3("Scale", &scale.x);
 		ImGui::DragFloat3("Position", &position.x);
 		ImGui::DragFloat3("Rotation", &rotation.x);
@@ -116,7 +126,7 @@ int main() {
 				if (i % 2) z += unitZ * 0.5;
 				//float r = ((double)std::rand()  / (double)(RAND_MAX)) + 1;
 				int y = -2000.0;
-			    // mapTest.push_back(fVec3(x, y, -z));
+				// mapTest.push_back(fVec3(x, y, -z));
 				model = glm::mat4(1.0);
 				model = glm::translate(model, glm::vec3(x, y, -z));
 				model = glm::scale(model, glm::vec3(unitX, unitY, unitZ));
@@ -129,6 +139,9 @@ int main() {
 
 		 Gui::End();
 		 Context::Update();
+
+
+		 FPS::EndFPSCalc();
 	}
 
 	Shape::Destroy();
