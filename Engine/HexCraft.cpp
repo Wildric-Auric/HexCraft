@@ -24,7 +24,7 @@ int main() {
 	Context::EnableDepthTest(1);
 	float unitX = 500.0;
 	float unitZ = 500.0;
-	float unitY = 1000.0;
+	float unitY = 500.0;
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; ++j) {
 			float x = i * unitX * 0.75;
@@ -53,7 +53,7 @@ int main() {
 	fVec3 cameraPosition = cam.__position;
 	fVec2 cameraRotation = fVec2(Maths::RadToDeg(cam.__rotation.x), Maths::RadToDeg(cam.__rotation.y));
 
-	Image   im  = Image("Resources\\Images\\GrassHex.png");
+	Image   im  = Image("Resources\\Images\\TexturePackHex\\GrassHex.png");
 	Texture tex = Texture(im);
 
 	float specularStrength = 0.0f;
