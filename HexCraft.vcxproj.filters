@@ -66,10 +66,16 @@
     <ClCompile Include="Engine\Inputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Player.cpp">
+    <ClCompile Include="Game\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\FPS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UnitHex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -992,10 +998,16 @@
     <ClInclude Include="Engine\Inputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Player.h">
+    <ClInclude Include="Game\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\FPS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UnitHex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

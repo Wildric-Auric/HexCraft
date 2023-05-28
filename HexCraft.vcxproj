@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;WIN_32;_CRT_SECURE_NO_WARNINGS;_CONSOLE;_DEBUG</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)LibHeaders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LibHeaders;$(SolutionDir)Game;$(SolutionDir)Engine</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;WIN_32;_CRT_SECURE_NO_WARNINGS;_CONSOLE;_DEBUG</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)LibHeaders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LibHeaders;$(SolutionDir)Game;$(SolutionDir)Engine</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -141,10 +141,12 @@
     <ClCompile Include="Engine\HexCraft.cpp" />
     <ClCompile Include="Engine\Context.cpp" />
     <ClCompile Include="Engine\Inputs.cpp" />
-    <ClCompile Include="Engine\Player.cpp" />
+    <ClCompile Include="Game\Demo.cpp" />
+    <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\Shapes.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
+    <ClCompile Include="Game\UnitHex.cpp" />
     <ClCompile Include="LibHeaders\glm\detail\glm.cpp" />
     <ClCompile Include="LibHeaders\imgui\imgui.cpp" />
     <ClCompile Include="LibHeaders\imgui\imgui_demo.cpp" />
@@ -164,7 +166,9 @@
     <ClInclude Include="Engine\Inputs.h" />
     <ClInclude Include="Engine\Log.h" />
     <ClInclude Include="Engine\Maths.h" />
-    <ClInclude Include="Engine\Player.h" />
+    <ClInclude Include="Game\Demo.h" />
+    <ClInclude Include="Game\UnitHex.h" />
+    <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\Shapes.h" />
     <ClInclude Include="Engine\Texture.h" />
