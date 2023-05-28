@@ -17,7 +17,7 @@ void Player::Update() {
 	float yDir0   = Inputs::KeyPressed(HEX_INPUT_KEY_UP)    - Inputs::KeyPressed(HEX_INPUT_KEY_DOWN);
 	
 	fVec3 forward = Maths::SphericalToCartesian(Camera::activeCam->__rotation);
-	fVec3 right   = forward.Cross(fVec3(0.0, 1.0, 0.0));
+	fVec3 right   = forward.Cross(fVec3(0.0, 1.0, 0.0)).normalize();
 
 	fVec3 result     =  (right * movDir.x * speed.x + forward * movDir.y * speed.y) * FPS::deltaTime *(Inputs::KeyPressed(HEX_INPUT_KEY_LEFT_SHIFT) ? acceleration : 1.0);
 
