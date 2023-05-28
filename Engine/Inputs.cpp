@@ -26,7 +26,6 @@ int Inputs::DirectionalKeyPressed(DirectionalKey key) {
 			key0 = HEX_INPUT_KEY_W;
 		else if (Inputs::keyBoardMode == KeyBoardMode::INPUT_AZERTY)
 			key0 = HEX_INPUT_KEY_Z;
-
 		break;
 
 	case DirectionalKey::INPUT_LEFT:
@@ -34,7 +33,6 @@ int Inputs::DirectionalKeyPressed(DirectionalKey key) {
 			key0 = HEX_INPUT_KEY_A;
 		else if (Inputs::keyBoardMode == KeyBoardMode::INPUT_AZERTY)
 			key0 = HEX_INPUT_KEY_Q;
-
 		break;
 
 	case DirectionalKey::INPUT_DOWN:
@@ -42,7 +40,6 @@ int Inputs::DirectionalKeyPressed(DirectionalKey key) {
 			key0 = HEX_INPUT_KEY_S;
 		else if (Inputs::keyBoardMode == KeyBoardMode::INPUT_AZERTY)
 			key0 = HEX_INPUT_KEY_S;
-
 		break;
 	}
 
