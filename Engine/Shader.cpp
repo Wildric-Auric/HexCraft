@@ -111,7 +111,7 @@ void Shader::SetUniform(GLSLDataType datatype, const char* uniformName, void* da
 	}
 }
 
-Shader::~Shader() {
+void Shader::Delete() {
 	glDeleteProgram(this->id);
 	this->id = 0;
 }
