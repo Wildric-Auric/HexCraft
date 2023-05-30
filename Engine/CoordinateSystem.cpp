@@ -13,7 +13,7 @@ fVec3 CoordinateSystem::WorldToHex(const fVec3& coord, const fVec3& unitSize) {
 	ret.x = (4.0f / 3.0f) * (1.0 / unitSize.x) * coord.x;
 	ret.y = (1.0f / unitSize.y)				   * coord.y;
 	ret.z = (1.0f / unitSize.z)				   * coord.z - (int(ret.x) % 2 != 0 ? 0.5 : 0.0);
-	return ret;
+	return Maths::Floor(ret);
 }
 
 fVec3 CoordinateSystem::WorldToRect(const fVec3& coord, const fVec3& unitSize) {

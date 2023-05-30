@@ -7,15 +7,18 @@
 #include <iostream>
 
 #include "imgui/imgui.h"
+#include "Noise.h"
 
 #include <deque>
+
+#include "CoordinateSystem.h"
 
 static 	Shader shader;
 static Texture tex;
 static float specularStrength = 0.0f;
 static float specularPower    = 256.0f;
 static Player player;
-static iVec3 mapSize          = iVec3(10, 10, 10);
+static iVec3 mapSize          = iVec3(60, 20, 60);
 static fVec3 lightPosition;
 static Camera cam;
 
@@ -23,7 +26,10 @@ static Camera cam;
 
 std::deque<UnitHex> worldMap;
 
+static UnitHex tt;
+
 Demo::Demo() {
+
 	//Loads shader
 	shader = Shader("Resources\\Shaders\\BoxColor.glsl");
 	//Inits camera
@@ -37,9 +43,11 @@ Demo::Demo() {
 	player = Player();
 	player.Start();
 	//Inits map
+	tt  = UnitHex(&shader, &tex);
 	for (int i = 0; i < mapSize.x; ++i) {
 		for (int j = 0; j < mapSize.z; ++j) {
-			for (int k = 0 ; k < mapSize.y; ++k) {
+			int ee = 30.0 * Noise::FBMWrap(fVec2(i, j) * (1.0f / 1000.0f) * 1.0);
+			for (int k = 0; k < ee; ++k) {
 				worldMap.emplace_back(UnitHex(&shader, &tex));
 				worldMap.back().position = fVec3(i, k, -j);
 			}
@@ -193,13 +201,26 @@ void Demo::Update() {
 		ImGui::DragFloat3("Light position",	  &lightPosition.x);
 		ImGui::DragFloat("Specular Strength", &specularStrength);
 		ImGui::DragFloat("Specular Power",    &specularPower);
+		ImGui::DragFloat3("Player Position",   &player.position.x);
+		fVec3 temp = CoordinateSystem::WorldToHex(player.position, tt.size);
+		ImGui::DragFloat3("PlayerHexCoord: ", &temp.x);
 
 	ImGui::End();
 
-	player.Update();
+	tt.Draw(lightPosition);
 
-	for (UnitHex& unit : worldMap) {
-		unit.Draw();
+	player.Update();
+	lightPosition = player.position;
+	for (int i = -mapSize.x/2; i < mapSize.x/2 - 1; ++i) {
+		for (int j = -mapSize.z/2; j < mapSize.z/2 - 1; ++j) {
+			fVec3 pPos = CoordinateSystem::WorldToHex(player.position, tt.size);
+
+			int height = 15.0 * Noise::FBMWrap(fVec2(i + pPos.x, j + pPos.z ) * (1.0f / 1000.0f) * 1.0);
+			for (int k = 0; k < height; ++k) {
+				tt.position = fVec3(i + pPos.x, k, j + pPos.z);
+				tt.Draw();
+			}
+		}
 	}
 	BlockInFrontOfCam();
 }
