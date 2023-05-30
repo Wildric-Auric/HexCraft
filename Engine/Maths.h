@@ -32,21 +32,23 @@ namespace Maths {
 		Vector2<float> normalize();
 		float magnitude();
 		T Dot(Vector2 const& vec1);
+
+
 		Vector2 Project(Vector2 const& vec1);
 		//Angle In degree
 		Vector2 Rotate(float const& angle); 
 
-		Vector2 operator + (Vector2 const& vec1);
-		Vector2 operator + (T const& num);
-		Vector2 operator - (Vector2 const& vec1);
-		Vector2 operator - (T const& num);
+		Vector2 operator + (Vector2 const& vec1) const;
+		Vector2 operator + (T const& num)        const ;
+		Vector2 operator - (Vector2 const& vec1) const; 
+		Vector2 operator - (T const& num)        const;
 		template<typename T1>
-		Vector2 operator * (T1 const& num);
-		Vector2 operator * (Vector2 const& vec1);
-		bool operator == (Vector2 const& vec1);
-		bool operator != (Vector2 const& vec1);
+		Vector2 operator * (T1 const& num) const;
+		Vector2 operator * (Vector2 const& vec1)  const;
+		bool operator == (Vector2 const& vec1)    const;
+		bool operator != (Vector2 const& vec1)    const;
 
-		operator Vector2<int>() const { return Vector2<int>(x, y); }
+		operator Vector2<int>()   const { return Vector2<int>(x, y); }
 		operator Vector2<float>() const { return Vector2<float>(x, y); }
 
 		T* operator [] (int index);
@@ -85,18 +87,18 @@ namespace Maths {
 	}
 	template<typename T>
 	Vector2<T>::Vector2(T x, T y) : x{ x }, y{ y } {
-		Vector2::x = x;
-		Vector2::y = y;
+		this->x = x;
+		this->y = y;
 	}
 	template<typename T>
-	Vector2<T> Vector2<T>::operator + (Vector2 const& vec1) {
+	Vector2<T> Vector2<T>::operator + (Vector2 const& vec1)  const{
 		Vector2 sum;
 		sum.x = x + vec1.x;
 		sum.y = y + vec1.y;
 		return sum;
 	}
 	template<typename T>
-	Vector2<T> Vector2<T>::operator - (Vector2 const& vec1) {
+	Vector2<T> Vector2<T>::operator - (Vector2 const& vec1)  const{
 		Vector2 sub;
 		sub.x = x - vec1.x;
 		sub.y = y - vec1.y;
@@ -104,21 +106,21 @@ namespace Maths {
 	}
 
 	template<class T>
-	Vector2<T> Vector2<T>::operator * (Vector2 const& vec1) {
+	Vector2<T> Vector2<T>::operator * (Vector2 const& vec1) const{
 		Vector2 newVec;
 		newVec.x = x * vec1.x;
 		newVec.y = y * vec1.y;
 		return newVec;
 	}
 	template<typename T>
-	Vector2<T> Vector2<T>::operator + (T const& num) {
+	Vector2<T> Vector2<T>::operator + (T const& num) const{
 		Vector2 newVec;
 		newVec.x = x + num;
 		newVec.y = y + num;
 		return newVec;
 	}
 	template<typename T>
-	Vector2<T> Vector2<T>::operator - (T const& num) {
+	Vector2<T> Vector2<T>::operator - (T const& num) const {
 		Vector2 newVec;
 		newVec.x = x - num;
 		newVec.y = y - num;
@@ -127,7 +129,7 @@ namespace Maths {
 
 	template<typename T>
 	template<typename T1>
-	Vector2<T> Vector2<T>::operator * (T1 const& num) {
+	Vector2<T> Vector2<T>::operator * (T1 const& num) const{
 		Vector2 newVec;
 		newVec.x = x * num;
 		newVec.y = y * num;
@@ -135,12 +137,12 @@ namespace Maths {
 	}
 
 	template<typename T>
-	bool Vector2<T>::operator == (Vector2 const& vec1) {
+	bool Vector2<T>::operator == (Vector2 const& vec1) const{
 		return (x == vec1.x) && (y == vec1.y);
 	}
 
 	template<typename T>
-	bool Vector2<T>::operator != (Vector2 const& vec1) {
+	bool Vector2<T>::operator != (Vector2 const& vec1) const{
 		return (x != vec1.x) && (y != vec1.y);
 	}
 
@@ -200,12 +202,12 @@ namespace Maths {
 		Vector3 Rotate(Vector3  const& vec1);
 		Vector3 Cross(Vector3 const& vec1);
 
-		Vector3 operator + (Vector3 const& vec1);
-		Vector3 operator + (T const& num);
-		Vector3 operator * (T const& num);
-		Vector3 operator * (Vector3 const& vec1);
-		bool operator == (Vector3 const& vec1);
-		bool operator != (Vector3 const& vec1);
+		Vector3 operator + (Vector3 const& vec1) ;
+		Vector3 operator + (T const& num)        ;
+		Vector3 operator * (T const& num)        ;
+		Vector3 operator * (Vector3 const& vec1) ;
+		bool operator == (Vector3 const& vec1)   ;
+		bool operator != (Vector3 const& vec1)   ;
 	};
 
 	template<typename T>
@@ -269,9 +271,9 @@ namespace Maths {
 
 	template<class T>
 	Vector3<T>::Vector3(T x, T y, T z) : x{ x }, y{ y }, z{z} {
-		Vector3::x = x;
-		Vector3::y = y;
-		Vector3::z = z;
+		this->x = x;
+        this->y = y;
+		this->z = z;
 	}
 	template<typename T>
 	Vector3<T> Vector3<T>::operator + (Vector3 const& vec1) {
@@ -524,6 +526,27 @@ namespace Maths {
 	template<typename T>
 	T Det2(Vector2<T> a, Vector2<T> b) {
 		return a.x * b.y - a.y * b.x;
+	}
+
+	template<typename T>
+	Vector2<T> Floor(const Vector2<T>& vec) {
+		return Vector2<T>(int(vec.x), int(vec.y));
+	}
+
+	template<typename T>
+	Vector3<T> Floor(const Vector3<T>& vec) {
+		return Vector3<T>(int(vec.x), int(vec.y), int(vec.z));
+	}
+
+
+	template<typename T>
+	Vector2<T> Fract(const Vector2<T>& vec) {
+		return vec - Floor(vec);
+	}
+
+	template<typename T>
+	Vector3<T> Fract(const Vector3<T>&vec) {
+		return vec - Floor(vec);
 	}
 
 
