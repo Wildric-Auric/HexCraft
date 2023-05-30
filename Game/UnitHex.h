@@ -4,13 +4,18 @@
 #include "Shader.h"
 #include "Texture.h"
 
+
+
 class UnitHex {
 public:
 	UnitHex() {};
 	UnitHex(Shader* shader, Texture* texture, const fVec3& position = fVec3());
-
+	
+	//Will draw at corresponding member position
 	void Draw();
-	fVec3 GetWorldCoordinates();
+
+	//Parameter in world Coordinates
+	void Draw(const fVec3& worldPosition);
 
 	Shader*  shader  = nullptr;
 	Texture* texture = nullptr;
