@@ -29,7 +29,7 @@ void UnitHex::Draw(const fVec3& worldPos) {
 
 
 void UnitHex::Draw() {
-	fVec3 worldPos = CoordinateSystem::HexToWorld(this->position, this->size);
-	this->Draw();
+	fVec3 worldPos = CoordinateSystem::HexToWorld(this->position,this->size);
+	this->Draw(worldPos);
 }
 
