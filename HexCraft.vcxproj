@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\CoordinateSystem.cpp" />
     <ClCompile Include="Engine\FPS.cpp" />
     <ClCompile Include="Engine\Gui.cpp" />
     <ClCompile Include="Engine\HexCraft.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Context.h" />
+    <ClInclude Include="Engine\CoordinateSystem.h" />
     <ClInclude Include="Engine\FPS.h" />
     <ClInclude Include="Engine\Globals.h" />
     <ClInclude Include="Engine\Gui.h" />
