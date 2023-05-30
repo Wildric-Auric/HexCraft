@@ -92,14 +92,18 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;WIN_32;_CRT_SECURE_NO_WARNINGS;_CONSOLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)LibHeaders;$(SolutionDir)Game;$(SolutionDir)Engine</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)StaticLibs\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3_mt.lib;freetype.lib;OpenAL32.lib;libsndfile-1.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,23 +128,29 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;WIN_32;_CRT_SECURE_NO_WARNINGS;_CONSOLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)LibHeaders;$(SolutionDir)Game;$(SolutionDir)Engine</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)StaticLibs\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3_mt.lib;freetype.lib;OpenAL32.lib;libsndfile-1.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\CoordinateSystem.cpp" />
     <ClCompile Include="Engine\FPS.cpp" />
     <ClCompile Include="Engine\Gui.cpp" />
     <ClCompile Include="Engine\HexCraft.cpp" />
     <ClCompile Include="Engine\Context.cpp" />
     <ClCompile Include="Engine\Inputs.cpp" />
+    <ClCompile Include="Engine\Noise.cpp" />
     <ClCompile Include="Game\Demo.cpp" />
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
@@ -160,12 +170,14 @@
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Context.h" />
+    <ClInclude Include="Engine\CoordinateSystem.h" />
     <ClInclude Include="Engine\FPS.h" />
     <ClInclude Include="Engine\Globals.h" />
     <ClInclude Include="Engine\Gui.h" />
     <ClInclude Include="Engine\Inputs.h" />
     <ClInclude Include="Engine\Log.h" />
     <ClInclude Include="Engine\Maths.h" />
+    <ClInclude Include="Engine\Noise.h" />
     <ClInclude Include="Game\Demo.h" />
     <ClInclude Include="Game\UnitHex.h" />
     <ClInclude Include="Game\Player.h" />

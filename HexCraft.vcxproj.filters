@@ -78,6 +78,12 @@
     <ClCompile Include="Game\Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Noise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoordinateSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Context.h">
@@ -1008,6 +1014,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Demo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Noise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CoordinateSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
