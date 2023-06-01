@@ -143,7 +143,7 @@ namespace Maths {
 
 	template<typename T>
 	bool Vector2<T>::operator != (Vector2 const& vec1) const{
-		return (x != vec1.x) && (y != vec1.y);
+		return (x != vec1.x) || (y != vec1.y);
 	}
 
 	template<typename T>
@@ -315,7 +315,7 @@ namespace Maths {
 
 	template<typename T>
 	bool Vector3<T>::operator != (Vector3 const& vec1) {
-		return (x != vec1.x) && (y != vec1.y) && (z != vec1.z);
+		return (x != vec1.x) || (y != vec1.y) || (z != vec1.z);
 	}
 
 	template<typename T>
