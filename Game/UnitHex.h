@@ -23,4 +23,5 @@ public:
 	fVec3   size   = fVec3(500.0f, 500.0f, 500.0f);
 	//Position is in integer coordinates (0,0), (1,0,0) for example; not world pixel coordinates
 	fVec3 position;
+	float hauteur = 15.0;
 };

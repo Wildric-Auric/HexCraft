@@ -9,4 +9,6 @@ public:
 
 	static fVec3 WorldToRect(const fVec3& coord, const fVec3& unitSize);
 	static fVec3 RectToWorld(const fVec3& coord, const fVec3& unitSize);
+
+	static int HeightInWorld(fVec3 position);
 };

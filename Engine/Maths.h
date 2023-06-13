@@ -213,6 +213,9 @@ namespace Maths {
 	template<typename T>
 	Vector3<float> Vector3<T>::normalize() {
 		float magnitude = pow(x * x + y * y + z * z, 0.5);
+		if (magnitude == 0) {
+			return Vector3<float>(0.0, 0.0, 0.0);
+		}
 		return Vector3<float>(x / magnitude, y / magnitude, z / magnitude);
 	}
 	template<typename T>

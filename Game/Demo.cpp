@@ -11,8 +11,6 @@
 
 #include <deque>
 
-#include "CoordinateSystem.h"
-
 static 	Shader shader;
 static Texture tex;
 static float specularStrength = 0.0f;
@@ -23,8 +21,10 @@ static fVec3 lightPosition;
 static Camera cam;
 
 //using std::size;
-
+using std::cout;
+using std::deque;
 std::deque<UnitHex> worldMap;
+int randomint = (rand() % (20 - 0 + 1)) + 0;
 
 static UnitHex tt;
 
@@ -46,7 +46,7 @@ Demo::Demo() {
 	tt  = UnitHex(&shader, &tex);
 	for (int i = 0; i < mapSize.x; ++i) {
 		for (int j = 0; j < mapSize.z; ++j) {
-			int ee = 30.0 * Noise::FBMWrap(fVec2(i, j) * (1.0f / 1000.0f) * 1.0);
+			int ee = tt.hauteur * Noise::FBMWrap(fVec2(i, j) * (1.0f / 1000.0f) * 1.0);
 			for (int k = 0; k < ee; ++k) {
 				worldMap.emplace_back(UnitHex(&shader, &tex));
 				worldMap.back().position = fVec3(i, k, -j);
@@ -55,136 +55,14 @@ Demo::Demo() {
 	}
 }
 
-void Demo::BlockInFrontOfCam() {
-	
-	fVec3 vRayStart = Camera::activeCam->__position;
-	fVec3 vRayDir = Maths::SphericalToCartesian(Camera::activeCam->__rotation); //VecteurRegarde de la Cam forward (dx,dy,dz)
-	
-	fVec3 vRayUnitStepSize = fVec3(sqrt(1 + pow((vRayDir.y / vRayDir.x),2) + pow((vRayDir.z / vRayDir.x),2)) ,
-		sqrt(1 + pow((vRayDir.x / vRayDir.y),2) + pow((vRayDir.z / vRayDir.y),2)), 
-		sqrt(1 + pow((vRayDir.x / vRayDir.z),2) + pow((vRayDir.y / vRayDir.z),2)) );
-	iVec3 vMapCheck = iVec3( vRayStart.x, vRayStart.y, vRayStart.z ); //troncature float to int
-	fVec3 vRayLength1D;
-	iVec3 vStep;
-
-	//Config vStep & vRayLength1D
-	if (vRayDir.x < 0) {
-		vStep.x = -1;
-		vRayLength1D.x = (vRayStart.x - float(vMapCheck.x)) * vRayUnitStepSize.x;
-	}
-	else {
-		vStep.x = 1;
-		vRayLength1D.x = (float(vMapCheck.x + 1) - vRayStart.x) * vRayUnitStepSize.x;
-	}
-	if (vRayDir.y < 0) {
-		vStep.y = -1;
-		vRayLength1D.y = (vRayStart.y - float(vMapCheck.y)) * vRayUnitStepSize.y;
-	}
-	else {
-		vStep.y = 1;
-		vRayLength1D.y = (float(vMapCheck.y + 1) - vRayStart.y) * vRayUnitStepSize.y;
-	}
-	if (vRayDir.z < 0) {
-		vStep.z = -1;
-		vRayLength1D.z = (vRayStart.z - float(vMapCheck.z)) * vRayUnitStepSize.z;
-	}
-	else {
-		vStep.z = 1;
-		vRayLength1D.z = (float(vMapCheck.z + 1) - vRayStart.z) * vRayUnitStepSize.z;
-	}
-
-	bool blockFound = false;
-	float fDistance = 0.0f;
-	float fMaxDistance = 100.0f;
-
-	while (!blockFound && fDistance < fMaxDistance) {
-		if (vRayLength1D.x < vRayLength1D.y)
-		{
-			if (vRayLength1D.x < vRayLength1D.z) {
-				vMapCheck.x += vStep.x;
-				fDistance = vRayLength1D.x;
-				vRayLength1D.x += vRayUnitStepSize.x;
-			}
-			else if (vRayLength1D.x > vRayLength1D.z) {
-				vMapCheck.z += vStep.z;
-				fDistance = vRayLength1D.z;
-				vRayLength1D.z += vRayUnitStepSize.z;
-			}
-			else {
-				vMapCheck.x += vStep.x;
-				vMapCheck.z += vStep.z;
-
-				fDistance = vRayLength1D.x + vRayLength1D.z; // ?????????????? jsp
-
-				vRayLength1D.x += vRayUnitStepSize.x;
-				vRayLength1D.z += vRayUnitStepSize.z;
-			}
+bool Demo::BlockPresent(fVec3 Position) {
+	fVec3 PositionHex = CoordinateSystem::WorldToHex(Position, tt.size);
+	for (int i = 0; i < worldMap.size(); i++) {
+		if (worldMap[i].position == PositionHex) {
+			return true;
 		}
-		else if (vRayLength1D.x > vRayLength1D.y) {
-			if (vRayLength1D.y < vRayLength1D.z) {
-				vMapCheck.y += vStep.y;
-				fDistance = vRayLength1D.y;
-				vRayLength1D.y += vRayUnitStepSize.y;
-			}
-			else if (vRayLength1D.y > vRayLength1D.z) {
-				vMapCheck.z += vStep.z;
-				fDistance = vRayLength1D.z;
-				vRayLength1D.z += vRayUnitStepSize.z;
-			}
-			else {
-				vMapCheck.y += vStep.y;
-				vMapCheck.z += vStep.z;
-
-				fDistance = vRayLength1D.y + vRayLength1D.z; // ?????????????? jsp
-
-				vRayLength1D.y += vRayUnitStepSize.y;
-				vRayLength1D.z += vRayUnitStepSize.z;
-			}
-		}
-		else {
-			if (vRayLength1D.y < vRayLength1D.z) {
-				vMapCheck.x += vStep.x;
-				vMapCheck.y += vStep.y;
-
-				fDistance = vRayLength1D.x + vRayLength1D.y; // ?????????????? jsp
-
-				vRayLength1D.x += vRayUnitStepSize.x;
-				vRayLength1D.y += vRayUnitStepSize.y;
-			}
-			else if (vRayLength1D.y > vRayLength1D.z) {
-				vMapCheck.z += vStep.z;
-				fDistance = vRayLength1D.z;
-				vRayLength1D.z += vRayUnitStepSize.z;
-			}
-			else {
-				vMapCheck.x += vStep.x;
-				vMapCheck.y += vStep.y;
-				vMapCheck.z += vStep.z;
-
-				fDistance = vRayLength1D.x + vRayLength1D.y +vRayLength1D.z; // ?????????????? jsp
-
-				vRayLength1D.x += vRayUnitStepSize.x;
-				vRayLength1D.y += vRayUnitStepSize.y;
-				vRayLength1D.z += vRayUnitStepSize.z;
-			}
-		}
-		
-		//BlockFound ?
-		/*if (vMapCheck.x >= 0 && vMapCheck.x < mapSize.x
-			&& vMapCheck.y >= 0 && vMapCheck.y < mapSize.y
-			&& vMapCheck.z >= 0 && vMapCheck.z < mapSize.z) {
-			for (UnitHex& unit : worldMap) {
-				fVec3 worldPos = CoordinateSystem::HexToWorld(unit.position, unit.size);
-				iVec3 iworldPos = iVec3(worldPos.x, worldPos.y, worldPos.z);
-				if (iworldPos == vMapCheck) {
-					blockFound = true;
-					std::cout <<" ///////////" << blockFound << " /////////////";
-				}
-			}
-		}*/
-		std::cout << vMapCheck.x << "," << vMapCheck.y << "," << vMapCheck.z << " ;";
-		//std::cout << vMapCheck.x << "," << vMapCheck.y << "," << vMapCheck.z << "  // ";
 	}
+	return false;
 }
 
 void Demo::Update() {
@@ -204,23 +82,30 @@ void Demo::Update() {
 		ImGui::DragFloat3("Player Position",   &player.position.x);
 		fVec3 temp = CoordinateSystem::WorldToHex(player.position, tt.size);
 		ImGui::DragFloat3("PlayerHexCoord: ", &temp.x);
+		int bp = BlockPresent(player.position);
+		ImGui::DragInt("BlockPresent: ", &bp);
+
+		/*ImGui::DragFloat3("Rand Position", &worldMap[randomint].position.x);
+		fVec3 temprand = CoordinateSystem::WorldToHex(worldMap[randomint].position, tt.size);
+		ImGui::DragFloat3("Rand HexCoord: ", &temprand.x);
+		fVec3 afterrand=CoordinateSystem::HexToWorld(temprand, tt.size);
+		ImGui::DragFloat3("Rand Position After", &afterrand.x);
+		fVec3 apresapresrand= CoordinateSystem::WorldToHex(afterrand, tt.size);
+		ImGui::DragFloat3("Rand Position After", &apresapresrand.x);*/
+
 
 	ImGui::End();
 
 	tt.Draw(lightPosition);
 
 	player.Update();
-	lightPosition = player.position;
-	for (int i = -mapSize.x/2; i < mapSize.x/2 - 1; ++i) {
-		for (int j = -mapSize.z/2; j < mapSize.z/2 - 1; ++j) {
-			fVec3 pPos = CoordinateSystem::WorldToHex(player.position, tt.size);
 
-			int height = 15.0 * Noise::FBMWrap(fVec2(i + pPos.x, j + pPos.z ) * (1.0f / 1000.0f) * 1.0);
-			for (int k = 0; k < height; ++k) {
-				tt.position = fVec3(i + pPos.x, k, j + pPos.z);
-				tt.Draw();
-			}
+	lightPosition = player.position;
+
+	for (int i = 0; i < worldMap.size(); i++) {
+		fVec3 vPos = worldMap[i].position;
+		if (abs(vPos.x) < mapSize.x / 2 && abs(vPos.z) < mapSize.z / 2) {
+			worldMap[i].Draw();
 		}
 	}
-	BlockInFrontOfCam();
 }
