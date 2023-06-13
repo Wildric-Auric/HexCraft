@@ -1,0 +1,43 @@
+pas réussi à passer de voler à marcher 
+
+//float xDir = Inputs::DirectionalKeyPressed(DirectionalKey::INPUT_RIGHT) - Inputs::DirectionalKeyPressed(DirectionalKey::INPUT_LEFT);
+	//float yDir = Inputs::DirectionalKeyPressed(DirectionalKey::INPUT_UP) - Inputs::DirectionalKeyPressed(DirectionalKey::INPUT_DOWN);
+	//fVec2 movDir = fVec2(xDir, yDir).normalize();//caméra 
+	//
+	//float xDir0   = Inputs::KeyPressed(HEX_INPUT_KEY_LEFT) - Inputs::KeyPressed(HEX_INPUT_KEY_RIGHT);
+	//float yDir0   = Inputs::KeyPressed(HEX_INPUT_KEY_UP)    - Inputs::KeyPressed(HEX_INPUT_KEY_DOWN);
+	//
+	//fVec3 forward = Maths::SphericalToCartesian(Camera::activeCam->__rotation).normalize();
+	//fVec3 right   = forward.Cross(fVec3(0.0, 1.0, 0.0)).normalize();
+
+	//fVec3 result     =  ((right * movDir.x * speed.x + forward * movDir.y * speed.y) * FPS::deltaTime *(Inputs::KeyPressed(HEX_INPUT_KEY_LEFT_SHIFT) ? acceleration : 1.0));
+	////result = result.normalize() * (0.5)*tt.size;
+	//fVec3 futurPosition = this->position + result;
+
+	////std::cout<< "(" << result.x << ", " << result.y << ", " << result.z << " )" << std::endl;
+	////std::cout << "il faut sauter.." << "(" << this->position.x << ", " << this->position.y << ", " << this->position.z << " )" << "?" << "(" << futurPosition.x << ", " << futurPosition.y << ", " << futurPosition.z << " )" << std::endl;
+	///*int vHeight = CoordinateSystem::HeightInWorld(this->position);
+	//int vFuturHeight = CoordinateSystem::HeightInWorld(futurPosition);
+	//std::cout << "avant "<< vHeight << ", " << vFuturHeight << "?" << std::endl;*/
+	//
+	//if (!Collision(futurPosition)) {
+	//	//std::cout << "descend ou pas colli" << std::endl;
+	//	this->position = futurPosition;
+	//	//Position en Y : Hauteur
+	//	fVec3 posiHex = CoordinateSystem::WorldToHex(this->position, tt.size);
+	//	posiHex.y = tt.hauteur * Noise::FBMWrap(fVec2(posiHex.x, posiHex.z) * (1.0f / 1000.0f) * 1.0) + this->tailleHauteur;
+	//	this->position.y = CoordinateSystem::HexToWorld(posiHex, tt.size).y;
+	//}
+	//else {
+	//	//fVec3 HexPos = CoordinateSystem::WorldToHex(this->position, tt.size);
+	//	//fVec3 HexFutPos = CoordinateSystem::WorldToHex(futurPosition, tt.size);
+	//	//std::cout << "il faut sauter.." << "(" << this->position.x << ", " << this->position.y << ", " << this->position.z << " )" << "?" << "(" << futurPosition.x << ", " << futurPosition.y << ", " << futurPosition.z << " )" << std::endl;
+	//	//std::cout << "il faut sauter.." << "(" << HexPos.x << ", " << HexPos.y << ", " << HexPos.z << " )" << "?" << "(" << HexFutPos.x << ", " << HexFutPos.y << ", " << HexFutPos.z << " )" << std::endl;
+	//	//trouver la position avant la où la hauteur est bonne
+	//}
+
+	//this->rotation   = this->rotation  + fVec2(xDir0, yDir0).normalize() * sensitivty * FPS::deltaTime *
+	//				 (Inputs::KeyPressed(HEX_INPUT_KEY_LEFT_SHIFT) ? acceleration : 1.0);
+	//this->rotation.y = Maths::Clamp<float>(this->rotation.y, -89.8, 89.8);
+	//
+	//Camera::activeCam->UpdateTranform(this->position, this->rotation);

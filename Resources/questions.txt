@@ -1,0 +1,12 @@
+pk vitesse déplacement lié au vecteur du regard
+
+la frequence d'horloge et maj laquelles, kp ou pas pk 
+
+pk on a pas un monde stocké en mémoire morte
+
+comment marche la conversion hex to world ou inversement
+
+pk joueur 
+
+
+=> futurposition -unitHex.size pour avoir block avant !
