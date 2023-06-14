@@ -3,13 +3,14 @@
 #include "Slot.h"
 #include <iostream>
 
+#define NB_SLOT 5
+
 class Inventaire {
 public:
-	static const int nbSlots = 5;
-	Slot aSlots[nbSlots];
+
+	Slot aSlots[NB_SLOT];
 
 	Inventaire();
-
 	Slot getSlot(int pEmplacement);
 
 	void take(Item pItem);

@@ -18,7 +18,7 @@ public:
 	bool isEmpty();
 
 private:
-	const Item nonItem = Item(0);
+	Item nonItem = Item(0);
 
 	Item aItem;
 	int aQuantité;

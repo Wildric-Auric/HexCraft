@@ -4,6 +4,7 @@
 
 class Player {
 public:
+
 	fVec3 position;
 	fVec2 rotation;
 	float tailleHauteur = 1.75; // c la taille irl de Reis 1.75 // 1.65 Keren // 1.53 Davina
@@ -24,8 +25,7 @@ public:
 	int Mode = 0; //=0 vole ; =1 marche //im gui
 	int SautAuto = 1; //1 oui sinon 0 non //imgui
 
-	Inventaire Inv = Inventaire();
-
+	Inventaire Inv;
 	void Start();
 	int Collision(fVec3 futurPosition);
 	void Update();
