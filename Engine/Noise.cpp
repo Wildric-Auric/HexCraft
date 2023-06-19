@@ -2,13 +2,26 @@
 #include <random>
 #include <math.h>
 
+//Maybe won't use //static std::mt19937_64 rand64;
+
+//LCG64 it hashes a seed to normalize it for srand()
+uint32 lcg64(const uint64_t& seed) {
+	uint32 x = (6364136223846793005ULL * seed + 1) >> 32;
+	x ^= x >> 11;
+	x ^= x << 7 & 0x9D2C5680;
+	x ^= x << 15 & 0xEFC60000;
+	x ^= x >> 18;
+	return x;
+}
+
 float Noise::Random(fVec2 position) {
-	float fact = ((position).Dot(fVec2(12.9898, 78.233)));
+	//float fact = ((position).Dot(fVec2(12.9898, 78.233)));
 	/*std::srand(fact);
 	double ret = ((double)std::rand() / (double)(RAND_MAX));
 	*/
-	double a = std::sin(fact) * 43758.5453123;
-	return Maths::Max<double>(0.0, a - int(a));
+	std::srand( lcg64( ((uint64)(position.x) << 32) ^ (uint64)(position.y)) );
+	return (double)std::rand() / (double)RAND_MAX;
+	//double a = std::sin(fact) * 43758.5453123; //return Maths::Max<double>(0.0, a - int(a));
 }
 
 void Noise::Init() {
