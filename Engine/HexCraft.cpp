@@ -5,7 +5,7 @@
 #include "FPS.h"
 #include "Camera.h"
 #include "Demo.h"
-
+#include "Batch.h"
 #include <vector>
 
 //#include "Noise.h"
@@ -57,6 +57,8 @@ int main() {
 		Context::Clear(0.04,0.04,0.1);
 		demo.Update();
 
+		Batch::Update();
+		Batch::DrawAll();
 
 		//EndUpdate
 	    Gui::End();
