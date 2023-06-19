@@ -360,7 +360,7 @@ HexaPrismVertex HexaPrism::vertices[24] = {
 	HexaPrismVertex({  0.25,   -0.5,  0.5}, {0.75, 0.0}   , {0.0, -1.0, 0.0}, 2.0f),
 	HexaPrismVertex({  0.5 ,   -0.5,  0.0}, {1.0,  0.5}   , {0.0, -1.0, 0.0}, 2.0f),
 	HexaPrismVertex({  0.25,   -0.5, -0.5}, {0.75, 1.0}  , {0.0, -1.0, 0.0}, 2.0f),
-	HexaPrismVertex({ -0.25 ,  -0.5, -0.5}, {0.25,  1.0}    , {0.0, -1.0, 0.0}, 2.0f),
+	HexaPrismVertex({ -0.25 ,  -0.5, -0.5}, {0.25,  1.0}    , {0.0, -1.0, 0.0}, 2.0f)
 };
 
 void HexaPrism::SetUpVerticesData(const HexaPrismVertex* const vert) {

@@ -143,14 +143,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Batch.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\CoordinateSystem.cpp" />
     <ClCompile Include="Engine\FPS.cpp" />
+    <ClCompile Include="Engine\Framebuffer.cpp" />
     <ClCompile Include="Engine\Gui.cpp" />
     <ClCompile Include="Engine\HexCraft.cpp" />
     <ClCompile Include="Engine\Context.cpp" />
     <ClCompile Include="Engine\Inputs.cpp" />
+    <ClCompile Include="Engine\Map.cpp" />
     <ClCompile Include="Engine\Noise.cpp" />
+    <ClCompile Include="Engine\RessourcesManager.cpp" />
     <ClCompile Include="Game\Demo.cpp" />
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
@@ -168,16 +172,21 @@
     <ClCompile Include="LibHeaders\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Batch.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Context.h" />
     <ClInclude Include="Engine\CoordinateSystem.h" />
     <ClInclude Include="Engine\FPS.h" />
+    <ClInclude Include="Engine\Framebuffer.h" />
     <ClInclude Include="Engine\Globals.h" />
     <ClInclude Include="Engine\Gui.h" />
     <ClInclude Include="Engine\Inputs.h" />
     <ClInclude Include="Engine\Log.h" />
+    <ClInclude Include="Engine\Map.h" />
     <ClInclude Include="Engine\Maths.h" />
     <ClInclude Include="Engine\Noise.h" />
+    <ClInclude Include="Engine\Object.h" />
+    <ClInclude Include="Engine\ResourcesManager.h" />
     <ClInclude Include="Game\Demo.h" />
     <ClInclude Include="Game\UnitHex.h" />
     <ClInclude Include="Game\Player.h" />
@@ -480,6 +489,8 @@
     <ClInclude Include="LibHeaders\imgui\imstb_rectpack.h" />
     <ClInclude Include="LibHeaders\imgui\imstb_textedit.h" />
     <ClInclude Include="LibHeaders\imgui\imstb_truetype.h" />
+    <ClInclude Include="LibHeaders\stb\stb_image.h" />
+    <ClInclude Include="LibHeaders\stb\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LibHeaders\glm\detail\func_common.inl" />
@@ -621,8 +632,8 @@
     <None Include="LibHeaders\glm\gtx\vector_angle.inl" />
     <None Include="LibHeaders\glm\gtx\vector_query.inl" />
     <None Include="LibHeaders\glm\gtx\wrap.inl" />
-    <None Include="Resources\Shaders\BoxColor.glsl" />
-    <None Include="Resources\Shaders\Color.glsl" />
+    <None Include="Resources\Shaders\Prism.glsl" />
+    <None Include="Resources\Shaders\PrismBatched.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
