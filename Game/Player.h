@@ -6,6 +6,7 @@ public:
 	fVec3 position;
 	fVec2 rotation;
 
+	fVec3 forward; //READ ONLY
 	fVec2 speed        = fVec2(3000.0, 5000.0f);
 	fVec2 sensitivty   = fVec2(30.0, 30.0);
 	float acceleration = 3.0;
