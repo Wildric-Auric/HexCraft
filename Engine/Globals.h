@@ -1,6 +1,8 @@
 #pragma once
 #include "Maths.h"
 
+#define RES_H_MAP(type)   static std::unordered_map<std::string, type> ResourceMap;
+#define RES_CPP_MAP(type) std::unordered_map<std::string,        type> type::ResourceMap;
 
 typedef int8_t   int8;
 typedef int32_t  int32;
@@ -26,4 +28,6 @@ typedef Maths::Vector3<double>	dVec3;
 typedef Maths::Vector4<int>     iVec4;
 typedef Maths::Vector4<float>   fVec4;
 typedef Maths::Vector4<double>  dVec4;
+
+typedef long word;
 
