@@ -1,7 +1,7 @@
 #pragma once
 #include <cmath>
 #include <cstdint>
-
+#include <vector> //Temporary for vec map comparator
 
 namespace Maths {
 #define PI 3.14159265359
@@ -16,7 +16,7 @@ namespace Maths {
 	}
 
 	inline float RadToDeg(float angle) {
-		constexpr float temp = 180.0 / PI;
+		constexpr  float temp = 180.0 / PI;
 		return angle * temp;
 	}
 
@@ -47,6 +47,9 @@ namespace Maths {
 		Vector2 operator * (Vector2 const& vec1)  const;
 		bool operator == (Vector2 const& vec1)    const;
 		bool operator != (Vector2 const& vec1)    const;
+
+		//Defined for hashmap; TODO::Same for other classes
+		bool operator < (Vector2 const& vec1)     const;
 
 		operator Vector2<int>()   const { return Vector2<int>(x, y); }
 		operator Vector2<float>() const { return Vector2<float>(x, y); }
@@ -144,6 +147,13 @@ namespace Maths {
 	template<typename T>
 	bool Vector2<T>::operator != (Vector2 const& vec1) const{
 		return (x != vec1.x) || (y != vec1.y);
+	}
+	template<typename T>
+	bool Vector2<T>::operator < (Vector2 const& vec1) const {
+		std::vector<float> a = {this->x, this->y};
+		std::vector<float> b = {vec1.x, vec1.y};
+		return a < b;
+		//(this->x < vec1.x) || (this->y  < vec1.y); the commented code does not work; TODO::Check why
 	}
 
 	template<typename T>
