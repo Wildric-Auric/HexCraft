@@ -3,6 +3,10 @@
 #include <glew.h>
 #include <glfw3.h>
 #include <fstream>
+
+
+RES_CPP_MAP(Shader);
+
 ShaderString Shader::Parse(std::string path) { //For now it's just fragment and vertex shader
 	ShaderString ret;
 	ShaderType current = ShaderType::None;
@@ -92,6 +96,7 @@ void Shader::Use() {
 	glUseProgram(this->id);
 }
 
+//First element of void* data should be the size of array in case uniform array is set
 void Shader::SetUniform(GLSLDataType datatype, const char* uniformName, void* data) {
 	switch (datatype) {
 		case (GLSLDataType::Integer):
@@ -108,6 +113,8 @@ void Shader::SetUniform(GLSLDataType datatype, const char* uniformName, void* da
 			glUniform3f(glGetUniformLocation(this->id, uniformName), *((float*)data), *((float*)data + 1), *((float*)data + 2)); break;
 		case (GLSLDataType::Mat4f):
 			glUniformMatrix4fv(glGetUniformLocation(this->id, uniformName), 1, false, (float*)data); break;
+		case (GLSLDataType::IntegerArray):
+			glUniform1iv(glGetUniformLocation(this->id, uniformName), *(int*)(data), (int*)data + 1); break;
 	}
 }
 

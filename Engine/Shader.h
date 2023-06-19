@@ -2,6 +2,7 @@
 #include <string>
 #include "Globals.h"
 #include "Maths.h"
+#include <unordered_map>
 
 enum ShaderType {
 	None,
@@ -16,7 +17,8 @@ enum GLSLDataType {
 	Integer2,
 	Float3,
 	Integer3,
-	Mat4f
+	Mat4f,
+	IntegerArray	
 };
 
 struct ShaderString {
@@ -37,5 +39,6 @@ public:
 	int  Recompile(); //Note that it deletes the version old shader; if there is error in the new code the shader is empty
 	void Use();
 	void Delete();
-
+	
+	RES_H_MAP(Shader);
 };

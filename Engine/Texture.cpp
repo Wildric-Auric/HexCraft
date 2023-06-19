@@ -8,6 +8,10 @@
 #include "glew.h"
 #include "glfw3.h"
 
+
+RES_CPP_MAP(Texture);
+
+
 Image::Image(std::string path) {
 	stbi_set_flip_vertically_on_load(1);
 	this->path  = path;
@@ -18,8 +22,6 @@ void Image::Clear() {
 	stbi_image_free(this->data);
 	this->data = nullptr;
 }
-
-
 
 void Texture::SetUp() {
 	glGenTextures(1, &this->id);

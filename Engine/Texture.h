@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include <string>
+#include <unordered_map>
 
 
 #define HEXC_DEFAULT_IMAGE ""
@@ -42,10 +43,8 @@ struct FilteringProperties {
 
 
 class Texture {
-private:
-	uint32 id = 0;
-	void SetUp();
 public:
+	uint32 id = 0;
 	FilteringProperties __prop;
 	Image __imageInfo;
 
@@ -55,7 +54,11 @@ public:
 	//This constructor loads an image and clears its data automatically
 	Texture(std::string path);
 
+	//Internal function
+	void SetUp();
+
 	void Bind(uint8 samplerSlot = 0);
 	void Delete();
 	
+	RES_H_MAP(Texture);
 };
