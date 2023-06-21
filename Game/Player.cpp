@@ -48,7 +48,7 @@ void Player::Update() { //int height
 	int espaceDir = Inputs::KeyPressed(HEX_INPUT_KEY_SPACE); //Barre Espace
 	int leftShiftDir = Inputs::KeyPressed(HEX_INPUT_KEY_LEFT_SHIFT);
 
-	fVec3 forward = Maths::SphericalToCartesian(Camera::activeCam->__rotation).normalize();
+	this->forward = Maths::SphericalToCartesian(Camera::activeCam->__rotation).normalize();
 
 	//std::cout << forward.x << ", " << forward.y << ", " << forward.z << " ; " << std::endl;
 

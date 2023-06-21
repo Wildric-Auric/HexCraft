@@ -14,6 +14,8 @@ public:
 	fVec2 speedLow = fVec2(750.0, 1250.0f);
 	fVec2 speed = speedNormal; //par défaut
 
+	fVec3 forward;
+
 	float speedAltitude = 0.0f; //par défaut
 	float minAltitude = -10.0f; // à -10 blocks sur niveau 0
 	float maxAltitude = 20.0f; // à 20 blocks au dessus du niv 0
