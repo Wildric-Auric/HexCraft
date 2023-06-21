@@ -15,13 +15,8 @@ uint32 lcg64(const uint64_t& seed) {
 }
 
 float Noise::Random(fVec2 position) {
-	//float fact = ((position).Dot(fVec2(12.9898, 78.233)));
-	/*std::srand(fact);
-	double ret = ((double)std::rand() / (double)(RAND_MAX));
-	*/
 	std::srand( lcg64( ((uint64)(position.x) << 32) ^ (uint64)(position.y)) );
 	return (double)std::rand() / (double)RAND_MAX;
-	//double a = std::sin(fact) * 43758.5453123; //return Maths::Max<double>(0.0, a - int(a));
 }
 
 void Noise::Init() {
