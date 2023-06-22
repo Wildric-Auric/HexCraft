@@ -1,6 +1,7 @@
 #include "Noise.h"
 #include <random>
 #include <math.h>
+#include "Log.h"
 
 //Maybe won't use //static std::mt19937_64 rand64;
 
@@ -37,20 +38,19 @@ float Noise::ValueNoise(fVec2 position) {
 
 	float interX  = Maths::lerp(a, b, xy.x);
 	float interX2 = Maths::lerp(d, c, xy.x);
-
 	return Maths::lerp(interX, interX2, xy.y);
 }
 
 float Noise::FBM(fVec2 position) {
 	float ret = 0.0f;
 	ret  += Noise::ValueNoise(position);
-	ret  += 0.5     * Noise::ValueNoise(position  * 2.0f);
-	ret  += 0.25    * Noise::ValueNoise(position  * 4.0f);
-	ret  += 0.125   * Noise::ValueNoise(position  * 8.0f);
-	ret  += 0.0625  * Noise::ValueNoise(position  * 16.0f);
-	ret  += 0.03125 * Noise::ValueNoise(position  * 32.0f);
-
-	return ret;
+	ret  += (0.5     * Noise::ValueNoise(position  * 2.0f));
+	ret  += (0.25    * Noise::ValueNoise(position  * 4.0f));
+	ret  += (0.125   * Noise::ValueNoise(position  * 8.0f));
+	ret  += (0.0625  * Noise::ValueNoise(position  * 16.0f));
+	ret  += (0.03125 * Noise::ValueNoise(position  * 32.0f));
+	ret  /= 1.5;
+	return Maths::Min<float>(ret, 1.0f);
 }
 
 float Noise::FBMWrap(fVec2 position) {
