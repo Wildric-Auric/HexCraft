@@ -60,4 +60,18 @@ UnitHex* UnitHex::GetBlockType(std::string blockName) {
 void UnitHex::Init() {
 	UnitHex::blockTypes["Grass"] = UnitHex(ResourceManager<Shader>::Load(RES_SHADER_DIR "PrismBatched.glsl"),
 										   ResourceManager<Texture>::Load(RES_IMAGE_DIR "GrassHex.png"));
+
+	UnitHex::blockTypes["Dirt"] = UnitHex(ResourceManager<Shader>::Load(RES_SHADER_DIR "PrismBatched.glsl"),
+										   ResourceManager<Texture>::Load(RES_IMAGE_DIR "DirtHex.png"));
+
+
+	UnitHex::blockTypes["Sand"] = UnitHex(ResourceManager<Shader>::Load(RES_SHADER_DIR "PrismBatched.glsl"),
+											ResourceManager<Texture>::Load(RES_IMAGE_DIR "SandHex.png"));
+
+	UnitHex::blockTypes["Stone"] = UnitHex(ResourceManager<Shader>::Load(RES_SHADER_DIR "PrismBatched.glsl"),
+											ResourceManager<Texture>::Load(RES_IMAGE_DIR "StoneHex.png"));
+
+	UnitHex::blockTypes["Snow"] = UnitHex(ResourceManager<Shader>::Load(RES_SHADER_DIR "PrismBatched.glsl"),
+											ResourceManager<Texture>::Load(RES_IMAGE_DIR "SnowHex.png"));
+
 }

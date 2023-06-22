@@ -13,10 +13,22 @@ Map* Map::current;
 
 
 //TODO::Various blocks generation
-UnitHex Map::GenBlock(const fVec3& position) {
-	UnitHex grassBlock  = *UnitHex::GetBlockType("Grass");
-	grassBlock.position = position;
-	return grassBlock;
+UnitHex Map::GenBlock(const fVec3& position, bool last) {
+	UnitHex block;
+	if (position.y > 0.7 * Map::current->maxHeight) {
+		block = *UnitHex::GetBlockType("Snow");
+	}
+
+	else if (last) {
+		block = *UnitHex::GetBlockType("Grass");
+	}
+
+	else
+		block = *UnitHex::GetBlockType("Dirt");
+
+	
+	block.position = position;
+	return block;
 }
 
 Chunck::Chunck(const fVec2& position, float maxHeight, float minHeight) {
@@ -28,10 +40,10 @@ Chunck::Chunck(const fVec2& position, float maxHeight, float minHeight) {
 
 	for (int x = chunkOffset.x; x < HEX_CHUNK_SIZE_X + chunkOffset.x; ++x) {
 		for (int z = chunkOffset.z; z < HEX_CHUNK_SIZE_Y + chunkOffset.z; ++z) {
-			int yy = Maths::Max<float>(this->maxHeight * Noise::ValueNoise(fVec2(x,z) * (1.0f / 100.0f)), this->minHeight);
+			int yy = Maths::Max<float>(this->maxHeight * Noise::ValueNoise(fVec2(x,z) * (1.0f / 100.0f)), this->minHeight); //Using Noise::FBM() yields better results but costs too much
 			//ChunkToHex.Y is always 0.0, fVec3 is used only for convention
 			for (int y = chunkOffset.y; y < yy + chunkOffset.y; y++) {
-				UnitHex temp = Map::GenBlock(fVec3(x, y, z));
+				UnitHex temp = Map::GenBlock(fVec3(x, y, z), y ==  yy + chunkOffset.y - 1);
 				this->container.push_back(temp);
 			}
 		}
@@ -112,19 +124,15 @@ void Map::Update(const fVec3& playerPosition) {
 	for (auto& iter0 : this->__chuncks) {
 		fVec2 diff = fVec2(std::abs(coord.x - iter0.second->position.x), std::abs(coord.y - iter0.second->position.y));
 		//TODO::Replace magic value<<
-		if (diff.x > 1 || diff.y > 1)
+		if (diff.x > HEX_VIEW_DISTANCE || diff.y > HEX_VIEW_DISTANCE)
 			this->UnloadChunk(iter0.second->position);
 	}
 
-	this->LoadChunk(fVec2(coord.x, coord.y));
-	this->LoadChunk(fVec2(coord.x + 1, coord.y));
-	this->LoadChunk(fVec2(coord.x + 1, coord.y + 1));
-	this->LoadChunk(fVec2(coord.x, coord.y + 1));
-	this->LoadChunk(fVec2(coord.x - 1, coord.y + 1));
-	this->LoadChunk(fVec2(coord.x - 1, coord.y));
-	this->LoadChunk(fVec2(coord.x - 1, coord.y - 1));
-	this->LoadChunk(fVec2(coord.x, coord.y - 1));
-	this->LoadChunk(fVec2(coord.x + 1, coord.y - 1));
+	for (int i = -HEX_VIEW_DISTANCE; i <= HEX_VIEW_DISTANCE; ++i) {
+		for (int j = -HEX_VIEW_DISTANCE; j  <= HEX_VIEW_DISTANCE; ++j) {
+			this->LoadChunk(fVec2(coord.x + i, coord.y + j));
+		}
+	}
 }
 
 void Map::Draw() {

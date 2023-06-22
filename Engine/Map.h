@@ -7,14 +7,17 @@
 #include <list>
 #include <map>
 
-#define HEX_CHUNK_SIZE_X 3
-#define HEX_CHUNK_SIZE_Y 3
+#define HEX_CHUNK_SIZE_X 32
+#define HEX_CHUNK_SIZE_Y 32
 
 #define HEX_BLOCK_SIZE_X 500
 #define HEX_BLOCK_SIZE_Y 500
 #define HEX_BLOCK_SIZE_Z 500
+
+//in chunks; goes from -X to X for both axis
+#define HEX_VIEW_DISTANCE 1
 //in seconds
-#define HEX_CHUNK_UNLOAD_TIME 1
+#define HEX_CHUNK_UNLOAD_TIME 5
 
 
 //Chunks are allocated dynamically
@@ -48,8 +51,8 @@ public:
 
 	std::list<Chunck*> drawingOrder;
 	
-	float maxHeight = 1.0;
-	float minHeight = 1.0;
+	float maxHeight = 60.0f;
+	float minHeight = 1.0f;
 
 	bool LoadChunk(  const fVec2&   position);
 	bool UnloadChunk(const fVec2& position);
@@ -58,6 +61,6 @@ public:
 	//Map has only static draw
 	void Draw();
 
-	static UnitHex GenBlock(const fVec3& position);
+	static UnitHex GenBlock(const fVec3& position, bool last = 0);
 	static Map*    current;
 };

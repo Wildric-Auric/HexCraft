@@ -6,7 +6,7 @@
 #include <vector>
 
 
-#define HEX_BATCH_MAX_VERTICES 21600000// 9 float * 24 vertices; 10000 object ~10mb
+#define HEX_BATCH_MAX_VERTICES 21600000 // 9 float * 24 vertices; 10000 object ~10mb
 #define HEX_BATCH_MAX_INDICES  6000000  // 10000 object each having 60 indices;
 
 #define HEX_BATCH_SPARE_VERTICES 100

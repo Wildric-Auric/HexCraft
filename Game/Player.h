@@ -4,7 +4,7 @@
 class Player {
 public:
 	fVec3 position;
-	fVec2 rotation;
+	fVec2 rotation = fVec2(0.0, - 45.0);
 
 	fVec3 forward; //READ ONLY
 	fVec2 speed        = fVec2(3000.0, 5000.0f);

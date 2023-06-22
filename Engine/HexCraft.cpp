@@ -56,7 +56,7 @@ int main() {
 		ImGui::End();
 		Context::Clear(0.04,0.04,0.1);
 		demo.Update();
-
+		
 		Batch::Update();
 		Batch::DrawAll();
 

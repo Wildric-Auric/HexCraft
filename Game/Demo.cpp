@@ -42,29 +42,22 @@ static Map mapp;
 Demo::Demo() {
 
 	//uint8* img = new uint8[1000*1000*4];
-	//int inc = 0;
-	//for (int i = 0; i < 1000; ++i) {
-	//	for (int j = 0; j < 1000; ++j) {
-	//		float c    = Noise::ValueNoise(fVec2(i, j) * (1.0f / 100.0f) * 1.0);
-	//		uint8 col  = c * 255;
-	//		img[inc++] = col;
-	//		img[inc++] = col;
-	//		img[inc++] = col;
-	//		img[inc++] = 255;
-	//	}
-	//}
+    /*int inc = 0;
+	for (int i = 0; i < 1000; ++i) {
+		for (int j = 0; j < 1000; ++j) {
+			float c    =  Noise::FBMWrap(fVec2(i, j) * (1.0f / 100.0f) * 2.0);
+			uint8 col  = (uint8)(c * 255.0);
+			img[inc++] = col;
+			img[inc++] = col;
+			img[inc++] = col;
+			img[inc++] = 255;
+		}
+	}
 
-	//stbi_write_png("FBM0.png", 1000, 1000, 4, img, 1000*4);
-	//delete[] img;
+	stbi_write_png("TEST.png", 1000, 1000, 4, img, 1000*4);
+	delete[] img;*/
 
-	auto a = CoordinateSystem::WorldToHex(fVec3(10.0 , 0.0, 10.0), fVec3(500.0f, 500.0f, 500.0f)); //0,0
-	auto b = CoordinateSystem::WorldToHex(fVec3(10.0 , 0.0, 10.0), fVec3(251.0f, 0.0f,   2.0f)); //1,0
-	auto c = CoordinateSystem::WorldToHex(fVec3(10.0 , 0.0, 10.0), fVec3(251.0f, 500.0f, -2.0f)); //1,-1
 
-	LOG(a.x << " " << a.y << " " << a.z);
-	LOG(b.x << " " << b.y << " " << b.z);
-	LOG(c.x << " " << c.y << " " << c.z);
-	
 	cam = Camera(fVec2(DEFAULT_RESOLUTION_X, DEFAULT_RESOLUTION_Y), fVec3(0.0, 1250.0, 731.0), fVec2(0.0, -31.0));
 	cam.Use();
 	//Init Player
@@ -105,8 +98,6 @@ void Demo::Update() {
 
 	ImGui::End();
 
-	//tt.Draw(lightPosition);
-
 	player.Update();
 
 	fVec3 pos;
@@ -124,17 +115,14 @@ void Demo::Update() {
 		}
 	}
 
-	ImGui::Begin("Construction");
-	ImGui::DragFloat3("test", &dontDraw.x);
-	ImGui::End();
-
 	lightPosition = player.position;
-
-
 	mapp.Update(player.position);
 	mapp.Draw();
-
-	/*for (UnitHex& unit : worldMap) {
-		unit.Draw();
-	}*/
 }
+
+
+
+
+
+
+
